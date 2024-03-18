@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import HeadlessTippy from '@tippyjs/react/headless';
-import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import { Wrapper } from '../../../../Popper';
 import AccountItem from '../../../../AccountItem/AccountItem';

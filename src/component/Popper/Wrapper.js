@@ -1,5 +1,5 @@
 function Wrapper({ children }) {
-    return <div>{children}</div>;
+    return <div className="bg-white rounded-md">{children}</div>;
 }
 
 export default Wrapper;

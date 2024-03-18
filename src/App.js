@@ -2,8 +2,17 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import { DefaultLayout, HeaderOnly } from './component/Layout';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 function App() {
+    // useEffect(() => {
+    //     fetchApi();
+    // }, []);
+
+    // const fetchApi = async () => {
+    //     const res = axios.get(`http://localhost:3001/api/video/getAll`);
+    //     console.log('res', res);
+    // };
+
     return (
         <Router>
             <div className="App">

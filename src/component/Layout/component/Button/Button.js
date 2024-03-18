@@ -8,6 +8,8 @@ function Button({
     text,
     primary = false,
     outline,
+    noOutline,
+    explorer,
     leftIcon,
     rightIcon,
     icon,
@@ -38,6 +40,12 @@ function Button({
     }
     if (outline) {
         hoverButton = classNames('border-red-500 text-red-500 mr-0');
+    }
+    if (noOutline) {
+        hoverButton = classNames('bg-red-600 text-white font-semibold mr-0 w-32 hover:opacity-90');
+    }
+    if (explorer) {
+        hoverButton = classNames('bg-gray-100 text-black font-semibold  border-none hover:bg-gray-200 mr-3 h-11');
     }
 
     let button = classNames(

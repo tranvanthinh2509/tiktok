@@ -21,6 +21,9 @@ function Menu({ children, items = [] }) {
                         if (isParent) {
                             setHistory((prev) => [...prev, item.children]);
                         }
+                        if (item.separate) {
+                            item.separate();
+                        }
                     }}
                 />
             );

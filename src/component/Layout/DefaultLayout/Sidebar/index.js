@@ -1,7 +1,9 @@
 import { NavLink } from 'react-router-dom';
 import { Home, Following, Friendl, LetGo, LiveAction } from '../../../Icons';
+import { useSelector } from 'react-redux';
 
 function Sidebar() {
+    const user = useSelector((state) => state.user);
     const action = [
         {
             icon: <Home />,
@@ -51,7 +53,7 @@ function Sidebar() {
                             >
                                 {item.avatar ? (
                                     <img
-                                        src={item.avatar}
+                                        src={user.avatar}
                                         alt="son-tung"
                                         className="w-8 h-8 p-1 rounded-[-50%] object-cover"
                                     />

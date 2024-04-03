@@ -5,6 +5,7 @@ function Button({
     href,
     children,
     onClick,
+    disabled,
     text,
     primary = false,
     outline,
@@ -19,6 +20,7 @@ function Button({
 
     const props = {
         onClick,
+        disabled,
         ...passProp,
     };
 
@@ -33,7 +35,7 @@ function Button({
     let hoverButton;
 
     if (text) {
-        hoverButton = classNames('hover:bg-[-button-text] mr-2');
+        hoverButton = classNames('hover:bg-[-button-text] mr-2 disabled:opacity-25');
     }
     if (primary) {
         hoverButton = classNames('bg-[-button-primary] border-none text-white hover:opacity-90 mr-2');
@@ -42,7 +44,7 @@ function Button({
         hoverButton = classNames('border-red-500 text-red-500 mr-0');
     }
     if (noOutline) {
-        hoverButton = classNames('bg-red-600 text-white font-semibold mr-0 w-32 hover:opacity-90');
+        hoverButton = classNames('bg-red-600 text-white font-semibold mr-0 w-32 hover:opacity-90 disabled:bg-gray-600');
     }
     if (explorer) {
         hoverButton = classNames('bg-gray-100 text-black font-semibold  border-none hover:bg-gray-200 mr-3 h-11');

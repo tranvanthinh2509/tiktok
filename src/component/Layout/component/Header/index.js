@@ -1,4 +1,5 @@
 import images from '../../../../asset/image';
+import Image from '../../../Image/Image';
 
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
@@ -22,10 +23,27 @@ import {
 } from '../../../Icons';
 import { PiDotsThreeOutlineVerticalFill } from 'react-icons/pi';
 import Login from '../../../Login/Login';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { IoFastFood } from 'react-icons/io5';
+import * as UserService from '../../../../services/UserService';
+import { resetUser } from '../../../../redux/slides/userSlide';
+import { MenuItem } from '@material-tailwind/react';
 
 function Header() {
-    const curentUser = false;
+    const user = useSelector((state) => state.user);
+
+    let curentUser = false;
+    if (user?.email) {
+        curentUser = user;
+    }
+
+    const dispatch = useDispatch();
+    const handleLogout = async () => {
+        await UserService.logoutUser();
+        dispatch(resetUser());
+        localStorage.removeItem('access_token');
+    };
     const MENU_ITEMS = [
         {
             icon: <IdeaIcon />,
@@ -116,14 +134,20 @@ function Header() {
         {
             icon: <Logout />,
             title: 'Đăng xuất',
-            separate: true,
+            separate: handleLogout,
         },
     ];
+
+    const [menuHeader, setMenuHeader] = useState('');
+    useEffect(() => {
+        setMenuHeader(user?.email);
+    }, [user?.email]);
 
     const [login, setLogin] = useState(false);
     const handleLogin = () => {
         setLogin(true);
     };
+
     return (
         <div>
             {login && (
@@ -172,20 +196,44 @@ function Header() {
                             </Button>
                         </div>
                     )}
-
-                    <Menu items={curentUser ? User_MENU : MENU_ITEMS}>
-                        {curentUser ? (
-                            <img
-                                src="https://i1.sndcdn.com/artworks-i0nLuYBs0dR2nsn4-AkxVlg-t500x500.jpg"
-                                alt="son-tung"
-                                className="w-8 rounded-[-50%] object-cover ml-6 py-2.5"
-                            />
-                        ) : (
-                            <button className="px-1 py-3.5 ml-1">
-                                <PiDotsThreeOutlineVerticalFill className="w-5 h-5" fontSize="18px" color="#161823" />
-                            </button>
-                        )}
-                    </Menu>
+                    {menuHeader && (
+                        <Menu items={User_MENU}>
+                            {curentUser ? (
+                                <Image
+                                    src={user.avatar}
+                                    alt="son-tung"
+                                    className="w-8 h-8 rounded-[-50%] object-cover ml-6 "
+                                />
+                            ) : (
+                                <button className="px-1 py-3.5 ml-1">
+                                    <PiDotsThreeOutlineVerticalFill
+                                        className="w-5 h-5"
+                                        fontSize="18px"
+                                        color="#161823"
+                                    />
+                                </button>
+                            )}
+                        </Menu>
+                    )}
+                    {!menuHeader && (
+                        <Menu items={MENU_ITEMS}>
+                            {curentUser ? (
+                                <Image
+                                    src={user.avatar}
+                                    alt="son-tung"
+                                    className="w-8 h-8 rounded-[-50%] object-cover ml-6 "
+                                />
+                            ) : (
+                                <button className="px-1 py-3.5 ml-1">
+                                    <PiDotsThreeOutlineVerticalFill
+                                        className="w-5 h-5"
+                                        fontSize="18px"
+                                        color="#161823"
+                                    />
+                                </button>
+                            )}
+                        </Menu>
+                    )}
                 </div>
             </div>
         </div>

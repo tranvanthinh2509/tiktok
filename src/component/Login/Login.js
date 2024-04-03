@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import Button from '../Layout/component/Button/Button';
 import { IoMdClose } from 'react-icons/io';
-import { FaEyeSlash } from 'react-icons/fa';
-
+import SignIn from './SignIn';
+import SignUp from './SignUp';
 function Login({ onClick }) {
     const [handleLogin, setHandleLogin] = useState(true);
+
     return (
         <div className=" fixed z-30 w-full h-full bg-black bg-opacity-45 ">
             <div className="w-[-500] max-h-full bg-white mx-auto mt-20 rounded-lg">
@@ -37,85 +37,7 @@ function Login({ onClick }) {
                     </div>
                 </div>
 
-                {handleLogin ? (
-                    <div>
-                        <div className="px-5">
-                            <p className="text-[-18] font-bold">Email</p>
-                            <input
-                                type="text"
-                                placeholder="email"
-                                className="w-full px-3 leading-10 border border-gray-300 outline-none my-3 focus:border-black"
-                            />
-                            <p className="text-[-18] font-bold">Password</p>
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    placeholder="password"
-                                    className="w-full px-3 pr-5 leading-10 border border-gray-300 outline-none my-3 focus:border-black"
-                                />
-                                <div className="absolute top-4 right-0 px-2 py-2">
-                                    <FaEyeSlash />
-                                </div>
-                            </div>
-                            <p className="text-[-18] font-bold">Confirm Password</p>
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    placeholder="confirm password"
-                                    className="w-full px-3 pr-5 leading-10 border border-gray-300 outline-none my-3 focus:border-black"
-                                />
-                                <div className="absolute top-4 right-0 px-2 py-2">
-                                    <FaEyeSlash />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex justify-center mt-3 pb-9">
-                            <Button noOutline>Đăng nhập</Button>
-                        </div>
-                    </div>
-                ) : (
-                    <div>
-                        <div className="px-5">
-                            <p className="text-[-18] font-bold">Họ và tên</p>
-                            <input
-                                type="text"
-                                placeholder="họ và tên"
-                                className="w-full px-3 leading-10 border border-gray-300 outline-none my-3 focus:border-black"
-                            />
-                            <p className="text-[-18] font-bold">Email</p>
-                            <input
-                                type="text"
-                                placeholder="email"
-                                className="w-full px-3 leading-10 border border-gray-300 outline-none my-3 focus:border-black "
-                            />
-                            <p className="text-[-18] font-bold">Password</p>
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    placeholder="password"
-                                    className="w-full px-3 pr-5 leading-10 border border-gray-300 outline-none my-3 focus:border-black"
-                                />
-                                <div className="absolute top-4 right-0 px-2 py-2">
-                                    <FaEyeSlash />
-                                </div>
-                            </div>
-                            <p className="text-[-18] font-bold">Confirm Password</p>
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    placeholder="confirm password"
-                                    className="w-full px-3 pr-5 leading-10 border border-gray-300 outline-none my-3 focus:border-black"
-                                />
-                                <div className="absolute top-4 right-0 px-2 py-2">
-                                    <FaEyeSlash />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex justify-center mt-3 pb-9">
-                            <Button noOutline>Đăng ký</Button>
-                        </div>
-                    </div>
-                )}
+                {handleLogin ? <SignIn /> : <SignUp />}
             </div>
         </div>
     );

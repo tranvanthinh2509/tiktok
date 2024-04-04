@@ -164,7 +164,11 @@ function Header() {
                 <Search />
 
                 <div className="actor flex items-center">
-                    <Button text leftIcon={<FaPlus className="mr-2 w-5 h-5" fontSize="14px" color="#161823" />}>
+                    <Button
+                        to="/system/admin"
+                        text
+                        leftIcon={<FaPlus className="mr-2 w-5 h-5" fontSize="14px" color="#161823" />}
+                    >
                         <p className="text-[-18]  font-semibold ">Tải lên</p>
                     </Button>
 

@@ -11,6 +11,7 @@ const initialState = {
     follower: '',
     like: '',
     access_token: '',
+    isAdmin: false,
 };
 
 export const userSlide = createSlice({
@@ -29,6 +30,7 @@ export const userSlide = createSlice({
                 following = '',
                 follower = '',
                 like = '',
+                isAdmin,
             } = action.payload;
             state.id = _id;
             state.name = name;
@@ -40,6 +42,7 @@ export const userSlide = createSlice({
             state.follower = follower;
             state.like = like;
             state.access_token = access_token;
+            state.isAdmin = isAdmin;
         },
         resetUser: (state) => {
             state.id = '';
@@ -52,6 +55,7 @@ export const userSlide = createSlice({
             state.follower = '';
             state.like = '';
             state.access_token = '';
+            state.isAdmin = false;
         },
     },
 });

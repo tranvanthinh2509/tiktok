@@ -73,14 +73,14 @@ function MainVideo({ fakeUser }) {
                             </div>
                         </HeadlessTippy>
                         <div className="flex ">
-                            <h1 className="mr-1 text-[-18]">delivery staff confronting dogs </h1>
-                            <p className="text-blue-600 text-[-18]">#pet #cat #dog #cute #animals</p>
+                            <h1 className="mr-1 text-[-18]">{fakeUser?.description}</h1>
+                            <p className="text-blue-600 text-[-18]">{fakeUser?.tag || '#Xuhuong'}</p>
                         </div>
                         <div className="flex text-center h-6">
                             <span className="my-auto">
                                 <IoMusicalNotesSharp fontSize="14px" />
                             </span>
-                            <p className="leading-6 text-[-14] ml-1">оригинальный звук - maga_team</p>
+                            <p className="leading-6 text-[-14] ml-1">{fakeUser?.music || 'Nhạc nền'}</p>
                         </div>
                     </div>
                     <div className="">
@@ -104,7 +104,7 @@ function MainVideo({ fakeUser }) {
                             className="hover:cursor-pointer h-[-542] mr-5 rounded-xl "
                             loop
                         >
-                            <source src="https://files.fullstack.edu.vn/f8-tiktok/videos/3135-6528128e8d3b6.mp4" />
+                            <source src={fakeUser?.video} />
                         </video>
                         {hoverVideo && (
                             <div>
@@ -150,26 +150,26 @@ function MainVideo({ fakeUser }) {
                             <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
                                 <FaHeart fontSize="24px" />
                             </div>
-                            <p className="text-xs text-gray-500 font-bold">5001</p>
+                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.liked || 0}</p>
                         </div>
                         <div className="flex-col-reverse text-center">
                             <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
                                 <AiFillMessage fontSize="24px" />
                             </div>
-                            <p className="text-xs text-gray-500 font-bold">5003</p>
+                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.comment || 0}</p>
                         </div>
                         <div className="flex-col-reverse text-center">
                             <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
                                 <HiBookmark fontSize="24px" />
                             </div>
-                            <p className="text-xs text-gray-500 font-bold">5002</p>
+                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.saved || 0}</p>
                         </div>
 
                         <div className="flex-col-reverse text-center">
                             <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
                                 <FaShare fontSize="24px" />
                             </div>
-                            <p className="text-xs text-gray-500 font-bold">5004</p>
+                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.shared || 0}</p>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
 import MainVideo from '../../component/MainVideo/MainVideo';
+import * as VideoService from '../../services/VideoService';
+import { data } from 'jquery';
 
 function Home() {
     const fakeUser = {
@@ -21,13 +24,19 @@ function Home() {
         created_at: '2022-05-05 23:10:05',
         updated_at: '2022-05-05 23:11:39',
     };
-    console.log(fakeUser);
 
+    const fetchVideoAll = async () => {
+        const res = await VideoService.getAllVideo();
+        return res;
+    };
+    const { isLoading, data: videos } = useQuery({ queryKey: 'videos', queryFn: fetchVideoAll });
+    console.log('data ', videos);
     return (
         <div>
             <div className="w-full flex flex-col items-center mt-16 ">
-                <MainVideo fakeUser={fakeUser} />
-                <MainVideo fakeUser={fakeUser} />
+                {videos?.data?.map((video) => {
+                    return <MainVideo fakeUser={video} />;
+                })}
             </div>
         </div>
     );

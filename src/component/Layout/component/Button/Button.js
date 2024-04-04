@@ -14,6 +14,8 @@ function Button({
     leftIcon,
     rightIcon,
     icon,
+    small,
+    big,
     ...passProp
 }) {
     let Comp = 'button';
@@ -48,6 +50,16 @@ function Button({
     }
     if (explorer) {
         hoverButton = classNames('bg-gray-100 text-black font-semibold  border-none hover:bg-gray-200 mr-3 h-11');
+    }
+
+    if (primary && big) {
+        hoverButton = classNames(
+            'bg-red-600 text-white font-semibold mr-0 w-32 hover:opacity-90 disabled:bg-gray-600 min-w-40 min-h-12',
+        );
+    }
+
+    if (text && big) {
+        hoverButton = classNames('hover:bg-[-button-text] mr-2 disabled:opacity-25 min-w-40 min-h-12');
     }
 
     let button = classNames(

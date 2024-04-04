@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { Home, Following, Friendl, LetGo, LiveAction } from '../../../Icons';
 import { useSelector } from 'react-redux';
+import Image from '../../../Image/Image';
 
 function Sidebar() {
     const user = useSelector((state) => state.user);
@@ -47,8 +48,8 @@ function Sidebar() {
                                 to={item.to}
                                 className={({ isActive }) =>
                                     isActive
-                                        ? 'flex items-center px-2 py-2 cursor-pointer hover:bg-gray-100 text-red-500'
-                                        : 'flex items-center px-2 py-2 hover:bg-gray-100 cursor-pointer'
+                                        ? 'flex items-center px-2 py-2 cursor-pointer hover:bg-gray-100 text-red-500 hover:text-red-500'
+                                        : 'flex items-center px-2 py-2 hover:bg-gray-100 cursor-pointer hover:text-black'
                                 }
                             >
                                 {item.avatar ? (
@@ -74,11 +75,11 @@ function Sidebar() {
                 </div>
                 <div className="Footer pt-4 pl-2">
                     <div className="relative">
-                        <img
+                        <Image
                             src="https://sf16-website-login.neutral.ttwstatic.com/obj/tiktok_web_login_static/tiktok/webapp/main/webapp-desktop/8152caf0c8e8bc67ae0d.png"
                             alt="lỗi"
                             className=""
-                        ></img>
+                        />
                         <p className="text-[-14] w-36 text-orange-200 font-semibold absolute top-1 right-4 bottom-0 ">
                             Tạo hiệu ứng TikTok, để nhận thưởng
                         </p>

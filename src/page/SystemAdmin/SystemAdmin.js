@@ -1,19 +1,70 @@
 import images from '../../asset/image/index';
 import Image from '../../component/Image/Image';
 
-import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import { FaPlus } from 'react-icons/fa6';
 import Menu from '../../component/Popper/Menu/Menu';
 import { Profile, Logout, Following } from '../../component/Icons';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { AiTwotoneEdit } from 'react-icons/ai';
 import { AiFillPicture } from 'react-icons/ai';
 import Button from '../../component/Layout/component/Button/Button';
+import { useEffect, useState } from 'react';
+import { getBase64 } from '../../utils';
+import * as VideoService from '../../services/VideoService';
+import { useMutationHooks } from '../../hooks/useMutationHook';
+import * as Message from '../../component/Message/Message';
 
 function SystemAdmin() {
     const user = useSelector((state) => state.user);
+
+    const [description, setDesciption] = useState('');
+    const [tag, setTag] = useState('');
+    const [imageBg, setImageBg] = useState('');
+    const [video, setVideo] = useState('');
+    const stateVideo = {
+        description,
+        tag,
+        imageBg,
+        video,
+    };
+    const mutation = useMutationHooks((data) => {
+        const { description, tag, imageBg, video } = data;
+        const res = VideoService.createVideo({
+            description,
+            tag,
+            imageBg,
+            video,
+        });
+        return res;
+    });
+    const { data, isPending, isSuccess, isError } = mutation;
+    useEffect(() => {
+        if (isSuccess && data.status === 'OK') {
+            Message.success(data.message);
+            window.location.reload();
+        }
+    });
+    const handleDescription = (e) => {
+        setDesciption(e.target.value);
+    };
+    const handleTag = (e) => {
+        setTag(e.target.value);
+    };
+    const handleImageBg = async (fileList) => {
+        const file = fileList[0];
+        const base64 = await getBase64(file);
+        setImageBg(base64.toString());
+    };
+    const handleVideo = async (fileList) => {
+        const file = fileList[0];
+
+        const base64 = await getBase64(file);
+        setVideo(base64.toString());
+    };
+    const handleUpLoadVideo = () => {
+        console.log('stateVideo ', stateVideo);
+        mutation.mutate(stateVideo);
+    };
 
     const User_MENU = [
         {
@@ -119,14 +170,31 @@ function SystemAdmin() {
                                 <div className="py-4  w-[-700]">
                                     <div>
                                         <div className="flex justify-between">
-                                            <p className={'text-[-18] leading-6 w-32 font-semibold mr-4 '}>Chú thích</p>{' '}
+                                            <p className={'text-[-18] leading-6 w-40 font-semibold mr-4 '}>Chú thích</p>{' '}
                                             <p className="text-xs text-gray-950 mt-2">3/80</p>
                                         </div>
+
                                         <input
                                             type="text"
-                                            // value={name}
-                                            // onChange={(e) => handleName(e)}
-                                            placeholder="Tên"
+                                            value={description}
+                                            onChange={(e) => handleDescription(e)}
+                                            placeholder="Chú thích"
+                                            className="w-full outline-none border border-gray-300 mt-2 px-3 py-2 bg-white rounded text-[-16] "
+                                        />
+                                    </div>
+                                    <div className="mt-5">
+                                        <div className="flex justify-between">
+                                            <p className={'text-[-18] leading-6 w-40 font-semibold mr-4 '}>
+                                                Từ khóa xu hướng
+                                            </p>{' '}
+                                            <p className="text-xs text-gray-950 mt-2">3/80</p>
+                                        </div>
+
+                                        <input
+                                            type="text"
+                                            value={tag}
+                                            onChange={(e) => handleTag(e)}
+                                            placeholder="Từ khóa xu hướng"
                                             className="w-full outline-none border border-gray-300 mt-2 px-3 py-2 bg-white rounded text-[-16] "
                                         />
                                     </div>
@@ -134,7 +202,7 @@ function SystemAdmin() {
                                         <p className={'text-[-18] leading-6 w-32 font-semibold mr-4 '}>Ảnh bìa</p>
                                         <div className="relative ">
                                             <Image
-                                                src="https://image.baohatinh.vn/w1000/Uploaded/2024/qhbatuhbatoug/2024_04_03/ronaldo-jpeg-1712094873-171209-5766-4705-1712094913-6687.jpg"
+                                                src={imageBg}
                                                 alt="oke"
                                                 className="w-40 h-52 rounded-md object-cover"
                                             />
@@ -144,9 +212,9 @@ function SystemAdmin() {
                                                     name="avatarFile"
                                                     id="avatarFile"
                                                     fileList
-                                                    accept=".jpeg, .jpg, .png, .webg, .svg"
                                                     className="opacity-0 h-0 w-0 cursor-pointer"
-                                                    // onChange={(e) => handleOnChangeAvatar(e.target.files)}
+                                                    accept=".jpeg, .jpg, .png, .webg, .svg"
+                                                    onChange={(e) => handleImageBg(e.target.files)}
                                                     // maxCount={1}
                                                 />
                                                 <label
@@ -172,12 +240,18 @@ function SystemAdmin() {
                                                 controls
                                                 className="absolute top-3 left-3 hover:cursor-pointer w-[-280] h-[-542] object-cover rounded-3xl"
                                                 loop
+                                                src={video}
                                             >
-                                                <source src="https://files.fullstack.edu.vn/f8-tiktok/videos/3135-6528128e8d3b6.mp4" />
+                                                {/* <source src={video} /> */}
                                             </video>
                                         </div>
                                     </div>
-                                    <input type="file" className="px-2 py-2 border border-gray-300" />
+                                    <input
+                                        type="file"
+                                        className="px-2 py-2 border border-gray-300"
+                                        accept=".mp4 "
+                                        onChange={(e) => handleVideo(e.target.files)}
+                                    />
                                 </div>
                             </div>
 
@@ -185,7 +259,7 @@ function SystemAdmin() {
                                 <Button text big>
                                     Hủy bỏ
                                 </Button>
-                                <Button primary big>
+                                <Button primary big onClick={handleUpLoadVideo}>
                                     Đăng
                                 </Button>
                             </div>

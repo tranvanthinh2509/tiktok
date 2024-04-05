@@ -90,8 +90,8 @@ function UpdateInfoUser({ onClick }) {
                                     id="avatarFile"
                                     fileList
                                     accept=".jpeg, .jpg, .png, .webg, .svg"
-                                    className="opacity-0 h-0 w-0 cursor-pointer"
                                     onChange={(e) => handleOnChangeAvatar(e.target.files)}
+                                    className="opacity-0 h-0 w-0 cursor-pointer"
                                     maxCount={1}
                                 />
                                 <label for="avatarFile" className="absolute bottom-5 right-0">

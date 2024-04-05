@@ -6,6 +6,7 @@ import Friends from '../page/Friends';
 import Explorer from '../page/Explorer';
 import Profile from '../page/Profile';
 import Video from '../page/Video/Video';
+import SystemAdminUpload from '../page/SystemAdminUpload/SystemAdminUpload';
 import SystemAdmin from '../page/SystemAdmin/SystemAdmin';
 import { HeaderOnly } from '../component/Layout';
 
@@ -44,6 +45,12 @@ const publicRoutes = [
         path: '/search',
         component: Search,
         layout: null,
+    },
+    {
+        path: '/system/admin/upload',
+        component: SystemAdminUpload,
+        layout: null,
+        isPrivate: true,
     },
     {
         path: '/system/admin',

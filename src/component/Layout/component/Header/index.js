@@ -165,7 +165,7 @@ function Header() {
 
                 <div className="actor flex items-center">
                     <Button
-                        to="/system/admin"
+                        to="/system/admin/upload"
                         text
                         leftIcon={<FaPlus className="mr-2 w-5 h-5" fontSize="14px" color="#161823" />}
                     >

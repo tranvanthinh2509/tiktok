@@ -16,6 +16,7 @@ function Button({
     icon,
     small,
     big,
+    bigbig,
     ...passProp
 }) {
     let Comp = 'button';
@@ -55,6 +56,11 @@ function Button({
     if (primary && big) {
         hoverButton = classNames(
             'bg-red-600 text-white font-semibold mr-0 w-32 hover:opacity-90 disabled:bg-gray-600 min-w-40 min-h-12',
+        );
+    }
+    if (primary && bigbig) {
+        hoverButton = classNames(
+            'bg-red-600 text-white font-semibold mr-0 hover:opacity-90 disabled:bg-gray-600 min-w-40 w-full min-h-12',
         );
     }
 

@@ -6,41 +6,123 @@ import Menu from '../../component/Popper/Menu/Menu';
 import { Profile, Logout, Following } from '../../component/Icons';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { AiFillPicture } from 'react-icons/ai';
 import Button from '../../component/Layout/component/Button/Button';
 import { useEffect, useState } from 'react';
-import { getBase64 } from '../../utils';
 import * as VideoService from '../../services/VideoService';
 import { useMutationHooks } from '../../hooks/useMutationHook';
-import * as Message from '../../component/Message/Message';
 import TableComponent from '../../component/Table/TableComponent';
 import { useQuery } from '@tanstack/react-query';
+import { CiTrash } from 'react-icons/ci';
+import { CiEdit } from 'react-icons/ci';
+import UpdateInfoVideo from '../../component/UpdateInfoVideo/UpdateInfoVideo';
+import QuestionAgainComponent from '../../component/QuestionAgainComponent/QuestionAgainComponent';
+import { AiOutlineClose } from 'react-icons/ai';
+import { data } from 'jquery';
 
 function SystemAdminUpload() {
     const user = useSelector((state) => state.user);
+    const [rowSelected, setRowSelected] = useState('');
+    const [updateInfoVideo, setUpdateInfoVideo] = useState(false);
+    const [questionAgainComponent, setQuestionAgainComponent] = useState(false);
+    const [description, setDesciption] = useState('');
+    const handleCancelQuestion = () => {
+        setQuestionAgainComponent(false);
+    };
 
-    // const [description, setDesciption] = useState('');
-    // const [tag, setTag] = useState('');
-    // const stateVideo = {
-    //     description,
-    //     tag,
-    // };
-    // const mutation = useMutationHooks((data) => {
-    //     const { description, tag, imageBg, video } = data;
-    //     const res = VideoService.createVideo({
-    //         description,
-    //         tag,
-    //     });
-    //     return res;
-    // });
+    const [tag, setTag] = useState('');
+
+    const [stateVideoDetail, setStateVideoDetail] = useState({
+        description: '',
+        tag: '',
+        video: '',
+        id: '',
+    });
+    const mutation = useMutationHooks((data) => {
+        const { id, access_token } = data;
+        VideoService.deleteVideo(id, access_token);
+    });
+
+    const fetchDetailVideo = async (rowSelected) => {
+        const res = await VideoService.getDetailVideo(rowSelected);
+        if (res?.data) {
+            setStateVideoDetail({
+                description: res?.data?.description,
+                tag: res?.data?.tag,
+                video: res?.data?.video,
+                id: res?.data?._id,
+            });
+        }
+    };
+    useEffect(() => {
+        if (rowSelected) {
+            fetchDetailVideo(rowSelected);
+        }
+    }, [rowSelected]);
+    const handleUpdateInfoVideo = () => {
+        if (rowSelected) {
+            fetchDetailVideo(rowSelected);
+        }
+        setUpdateInfoVideo(true);
+    };
+
+    const handleQuestionAgainComponent = () => {
+        if (rowSelected) {
+            fetchDetailVideo(rowSelected);
+        }
+
+        setQuestionAgainComponent(true);
+    };
 
     const getAllVideo = async () => {
         const res = await VideoService.getAllVideo();
         return res;
     };
     // const { data, isPending, isSuccess, isError } = mutation;
-    const { isLoading: isLoadingVideo, data: videos } = useQuery({ queryKey: ['videos'], queryFn: getAllVideo });
-    console.log('data ', videos);
+    const querryVideo = useQuery({ queryKey: ['videos'], queryFn: getAllVideo });
+    const { isLoading: isLoadingVideo, data: videos } = querryVideo;
+    const loadAllVideo = () => querryVideo.refetch();
+    const renderAction = () => {
+        return (
+            <div className="flex">
+                <CiTrash fontSize="24px" className="cursor-pointer" onClick={handleQuestionAgainComponent} />
+                <CiEdit fontSize="24px" className="ml-2 cursor-pointer" onClick={handleUpdateInfoVideo} />
+            </div>
+        );
+    };
+    const handleDeleteVideo = () => {
+        mutation.mutate(
+            { id: rowSelected, access_token: user?.access_token },
+            {
+                onSettled: () => {
+                    querryVideo.refetch();
+                },
+            },
+        );
+        setQuestionAgainComponent(false);
+    };
+    const columns = [
+        {
+            title: 'Chú thích',
+            dataIndex: 'description',
+        },
+        {
+            title: 'Tag',
+            dataIndex: 'tag',
+        },
+        {
+            title: 'Thời gian tạo',
+            dataIndex: 'createdAt',
+        },
+        {
+            title: 'Video',
+            dataIndex: 'video2',
+        },
+        {
+            title: 'Action',
+            dataIndex: 'Action',
+            render: renderAction,
+        },
+    ];
     const User_MENU = [
         {
             icon: <Profile />,
@@ -141,7 +223,48 @@ function SystemAdminUpload() {
                         <div className="w-3/4 h-5/6 mx-auto mt-10 bg-white border border-gray-200 rounded-md px-10 py-6">
                             <h1 className="text-2xl font-bold">Quản lí video</h1>
                             <div className="mt-5">
-                                <TableComponent videos={videos?.data} />
+                                <TableComponent
+                                    columns={columns}
+                                    videos={videos?.data}
+                                    isLoading={isLoadingVideo}
+                                    onRow={(record, rowIndex) => {
+                                        return {
+                                            onClick: (event) => {
+                                                setRowSelected(record._id);
+                                            },
+                                        };
+                                    }}
+                                />
+                                {updateInfoVideo && (
+                                    <UpdateInfoVideo
+                                        dataVideo={stateVideoDetail}
+                                        onClick={() => setUpdateInfoVideo(false)}
+                                        loadAllVideo={loadAllVideo}
+                                    />
+                                )}
+                                {questionAgainComponent && (
+                                    <QuestionAgainComponent>
+                                        <div className="flex h-full items-center justify-center">
+                                            <div className="w-96 bg-white p-4">
+                                                <div className="flex justify-between items-center">
+                                                    <h1 className="font-bold text-[-18]">Xóa sản phẩm</h1>
+                                                    <div onClick={handleCancelQuestion}>
+                                                        <AiOutlineClose />
+                                                    </div>
+                                                </div>
+                                                <p className="pt-2 pb-8">Bạn có muốn xóa không ?</p>
+                                                <div className="flex flex-row-reverse">
+                                                    <Button primary onClick={handleDeleteVideo}>
+                                                        Xóa
+                                                    </Button>
+                                                    <Button text onClick={handleCancelQuestion}>
+                                                        Cancel
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </QuestionAgainComponent>
+                                )}
                             </div>
                         </div>
                     </div>

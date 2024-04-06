@@ -81,7 +81,7 @@ function SystemAdminUpload() {
         {
             icon: <Following />,
             title: 'Trang chủ',
-            to: '/1',
+            to: '/',
         },
         {
             icon: <Following />,

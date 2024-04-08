@@ -3,6 +3,7 @@ import { axiosJWT } from './UserService';
 
 export const getAllVideo = async () => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/video/getAll`);
+    console.log('123 ', res);
     return res.data;
 };
 

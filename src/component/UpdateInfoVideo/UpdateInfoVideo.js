@@ -6,7 +6,8 @@ import { useMutationHooks } from '../../hooks/useMutationHook';
 import * as message from '../Message/Message';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../../component/LoadingComponent/Loading';
-function UpdateInfoVideo({ onClick, dataVideo, loadAllVideo }) {
+import { Link } from 'react-router-dom';
+function UpdateInfoVideo({ onClick, dataVideo }) {
     const user = useSelector((state) => state.user);
     const [isLoadingUpdate, setIsLoadingUpdate] = useState(true);
     const [description, setDesciption] = useState('');
@@ -54,12 +55,7 @@ function UpdateInfoVideo({ onClick, dataVideo, loadAllVideo }) {
         onClick();
     };
     const handleSave = () => {
-        mutation.mutate(
-            { id: dataVideo.id, access_token: user?.access_token, description, tag },
-            {
-                onSettled: loadAllVideo(),
-            },
-        );
+        mutation.mutate({ id: dataVideo.id, access_token: user?.access_token, description, tag });
         handleClose();
     };
     return (

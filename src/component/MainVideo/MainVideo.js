@@ -14,6 +14,7 @@ import HeadlessTippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
 import { Wrapper } from '../../component/Popper';
 import AccountItemInfo from '../../component/AccountItemInfo/AccountItemInfo';
+import Image from '../Image/Image';
 
 function MainVideo({ fakeUser }) {
     const videoRef = useRef();
@@ -44,9 +45,9 @@ function MainVideo({ fakeUser }) {
                     </div>
                 )}
             >
-                <img
+                <Image
                     className="w-14 h-14 object-cover rounded-[-50%] cursor-pointer"
-                    src="https://hoanghamobile.com/tin-tuc/wp-content/uploads/2024/01/luffy-gear-6-2.jpg"
+                    src={fakeUser?.userId?.avatar}
                     alt="avatar"
                 />
             </HeadlessTippy>
@@ -67,9 +68,9 @@ function MainVideo({ fakeUser }) {
                         >
                             <div className="flex text-center ">
                                 <h1 className="text-[-18] font-bold mr-1 leading-6 hover:underline hover:decoration-1 hover:cursor-pointer">
-                                    maga.team
+                                    {fakeUser?.userId?.name}
                                 </h1>
-                                <p className="text-[-14] leading-7">maga_team</p>
+                                <p className="text-[-14] leading-7">{fakeUser?.userId?.nickName}</p>
                             </div>
                         </HeadlessTippy>
                         <div className="flex ">

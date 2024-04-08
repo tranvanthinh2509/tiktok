@@ -5,7 +5,7 @@ import 'tippy.js/dist/tippy.css';
 import Menu from '../../component/Popper/Menu/Menu';
 import { Profile, Logout, Following } from '../../component/Icons';
 import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { AiFillPicture } from 'react-icons/ai';
 import Button from '../../component/Layout/component/Button/Button';
 import { useEffect, useState } from 'react';
@@ -21,19 +21,23 @@ function SystemAdminUpload() {
     const [tag, setTag] = useState('');
     const [imageBg, setImageBg] = useState('');
     const [video, setVideo] = useState('');
+    const userId = user?.id;
+
     const stateVideo = {
         description,
         tag,
         imageBg,
         video,
+        userId,
     };
     const mutation = useMutationHooks((data) => {
-        const { description, tag, imageBg, video } = data;
+        const { description, tag, imageBg, video, userId } = data;
         const res = VideoService.createVideo({
             description,
             tag,
             imageBg,
             video,
+            userId,
         });
         return res;
     });
@@ -257,7 +261,7 @@ function SystemAdminUpload() {
 
                             <div className="flex">
                                 <Button text big>
-                                    Hủy bỏ
+                                    <Link to="/">Hủy bỏ</Link>
                                 </Button>
                                 <Button primary big onClick={handleUpLoadVideo}>
                                     Đăng

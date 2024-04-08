@@ -104,6 +104,7 @@ function SystemAdminUpload() {
         {
             title: 'Chú thích',
             dataIndex: 'description',
+            sorter: (a, b) => a.description.length - b.description.length,
         },
         {
             title: 'Tag',
@@ -112,6 +113,7 @@ function SystemAdminUpload() {
         {
             title: 'Thời gian tạo',
             dataIndex: 'createdAt',
+            sorter: (a, b) => a.createdAt.Date - b.createdAt.Date,
         },
         {
             title: 'Video',

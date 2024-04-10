@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from './slides/counterSlide';
+import searchUserSlide from './slides/searchUserSlide';
 import userReducer from './slides/userSlide';
 
 export const store = configureStore({
-    reducer: { counter: counterReducer, user: userReducer },
+    reducer: { search: searchUserSlide, user: userReducer },
 });

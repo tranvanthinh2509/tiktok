@@ -21,9 +21,9 @@ function AccountItemInfo({ data }) {
                 <p className="text-[-16] font-medium ">{data?.userId?.name}</p>
             </div>
             <div className="flex ">
-                <h1 className="text-[-18] font-semibold ">{data.followers_count}</h1>
+                <h1 className="text-[-18] font-semibold ">{data.follower || '0'}</h1>
                 <p className="text-[-18] px-2 text-gray-700">Follower</p>
-                <h1 className="text-[-18] font-semibold ">{data.likes_count}</h1>
+                <h1 className="text-[-18] font-semibold ">{data.liked || '0'}</h1>
                 <p className="text-[-18] px-2 text-gray-700">Likes</p>
             </div>
         </div>

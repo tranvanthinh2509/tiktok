@@ -32,7 +32,7 @@ const publicRoutes = [
         component: Profile,
     },
     {
-        path: '/profile/video',
+        path: '/profile/video/:id',
         component: Video,
         layout: null,
     },

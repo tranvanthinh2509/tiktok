@@ -14,6 +14,7 @@ export const createVideo = async (data) => {
 
 export const getDetailVideo = async (id) => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/video/detail/${id}`);
+    console.log('ressss', res);
     return res.data;
 };
 

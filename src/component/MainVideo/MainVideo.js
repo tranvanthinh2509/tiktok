@@ -15,12 +15,13 @@ import 'tippy.js/dist/tippy.css';
 import { Wrapper } from '../../component/Popper';
 import AccountItemInfo from '../../component/AccountItemInfo/AccountItemInfo';
 import Image from '../Image/Image';
-
+import { useNavigate } from 'react-router-dom';
 function MainVideo({ fakeUser }) {
     const videoRef = useRef();
     const [play, setPlay] = useState(false);
     const [hoverVideo, setHoverVideo] = useState(false);
-    const [showVolume, setShowVolume] = useState(false);
+    const [showVolume, setShowVolume] = useState(true);
+    const navigate = useNavigate();
     const handlePlay = () => {
         if (play) {
             videoRef.current.pause();
@@ -30,9 +31,12 @@ function MainVideo({ fakeUser }) {
             setPlay(true);
         }
     };
+    const handleDetailVideo = (id) => {
+        navigate(`/profile/video/${id}`);
+    };
 
     return (
-        <div index="1" className="flex py-5 max-w-[-692] justify-between h-auto">
+        <div index="1" className="flex py-5 max-w-[-692] justify-between h-auto ">
             <HeadlessTippy
                 delay={[200, 200]}
                 placement="bottom-start"
@@ -73,7 +77,7 @@ function MainVideo({ fakeUser }) {
                                 <p className="text-[-14] leading-7">{fakeUser?.userId?.nickName}</p>
                             </div>
                         </HeadlessTippy>
-                        <div className="flex ">
+                        <div className="">
                             <h1 className="mr-1 text-[-18]">{fakeUser?.description}</h1>
                             <p className="text-blue-600 text-[-18]">{fakeUser?.tag || '#Xuhuong'}</p>
                         </div>
@@ -88,8 +92,9 @@ function MainVideo({ fakeUser }) {
                         <Button outline>Follow</Button>
                     </div>
                 </div>
-                <div className="h-[-542] flex ">
+                <div className="h-[-700] flex ">
                     <div
+                        onDoubleClick={() => handleDetailVideo(fakeUser._id)}
                         className="relative   "
                         onMouseEnter={() => {
                             setHoverVideo(true);
@@ -102,11 +107,10 @@ function MainVideo({ fakeUser }) {
                             muted={showVolume ? true : false}
                             ref={videoRef}
                             onClick={handlePlay}
-                            className="hover:cursor-pointer h-[-542] mr-5 rounded-xl "
+                            className="hover:cursor-pointer h-[-700] mr-5 rounded-xl "
                             loop
-                        >
-                            <source src={fakeUser?.video} />
-                        </video>
+                            src={fakeUser?.video}
+                        ></video>
                         {hoverVideo && (
                             <div>
                                 {play ? (
@@ -146,7 +150,7 @@ function MainVideo({ fakeUser }) {
                             </button>
                         )}
                     </div>
-                    <div className="action h-[-542] flex flex-col justify-end">
+                    <div className="action h-full flex flex-col justify-end">
                         <div className="flex-col-reverse text-center">
                             <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
                                 <FaHeart fontSize="24px" />

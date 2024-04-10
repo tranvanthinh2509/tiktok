@@ -45,12 +45,6 @@ function SignUp() {
             password,
             confirmPassword,
         });
-        console.log(mutation);
-        console.log('name ', name);
-        console.log('email ', email);
-        console.log('password ', password);
-        console.log('confirmPassword ', confirmPassword);
-        console.log('data2: ', data);
     };
 
     return (

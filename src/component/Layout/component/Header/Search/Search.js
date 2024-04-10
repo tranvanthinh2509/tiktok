@@ -6,11 +6,13 @@ import AccountItem from '../../../../AccountItem/AccountItem';
 import { IoCloseCircleSharp } from 'react-icons/io5';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { BiLoaderAlt } from 'react-icons/bi';
+import * as UserService from '../../../../../services/UserService';
 function Search() {
     let [searchResult, setSearchResult] = useState([]);
     const [searchInput, setSearchInput] = useState('');
     const [showResult, setShowResult] = useState(true);
     const [loading, setLoading] = useState(false);
+    let res = [];
     useEffect(() => {
         if (!searchInput.trim()) {
             setSearchResult([]);
@@ -19,14 +21,22 @@ function Search() {
         }
         setLoading(true);
 
-        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchInput)}&type=more`)
+        // fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchInput)}&type=more`)
+        //     .then((res) => res.json())
+        //     .then((res) => {
+        //         setSearchResult(res.data);
+
+        //         setLoading(false);
+        //     });
+
+        fetch(`http://localhost:3001/api/user/search?filter=name&filter=${encodeURIComponent(searchInput)}`)
             .then((res) => res.json())
             .then((res) => {
                 setSearchResult(res.data);
-
                 setLoading(false);
             });
     }, [searchInput]);
+
     const inputRef = useRef();
     return (
         <HeadlessTippy

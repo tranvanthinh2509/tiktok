@@ -53,7 +53,7 @@ function Sidebar() {
                                 }
                             >
                                 {item.avatar ? (
-                                    <img
+                                    <Image
                                         src={user.avatar}
                                         alt="son-tung"
                                         className="w-8 h-8 p-1 rounded-[-50%] object-cover"

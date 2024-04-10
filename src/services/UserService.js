@@ -41,3 +41,9 @@ export const updateInfoUser = async (id, data, access_token) => {
     });
     return res.data;
 };
+export const search = async (searchInput) => {
+    const res = await axios.get(
+        `${process.env.REACT_APP_API_URL}/user/search?filter=name&filter=${encodeURIComponent(searchInput)}`,
+    );
+    return res.data;
+};

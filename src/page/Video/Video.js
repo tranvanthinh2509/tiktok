@@ -70,7 +70,7 @@ function Video() {
                 <div className="flex ">
                     <div className="h-screen w-[-1375] flex justify-center  backdrop-sepia-0 bg-white/3 relative">
                         <video
-                            className="fixed  hover:cursor-pointer h-screen w-full object-cover z-[0] opacity-50"
+                            className="fixed  hover:cursor-pointer h-screen w-full object-cover z-[0] opacity-50-"
                             src={videoDetail.video}
                         ></video>
 

@@ -21,6 +21,10 @@ function MainVideo({ fakeUser }) {
     const [play, setPlay] = useState(false);
     const [hoverVideo, setHoverVideo] = useState(false);
     const [showVolume, setShowVolume] = useState(true);
+    const [follow, setFollow] = useState(true);
+    const handleOnchangeFollow = () => {
+        setFollow(!follow);
+    };
     const navigate = useNavigate();
     const handlePlay = () => {
         if (play) {
@@ -88,8 +92,16 @@ function MainVideo({ fakeUser }) {
                             <p className="leading-6 text-[-14] ml-1">{fakeUser?.music || 'Nhạc nền'}</p>
                         </div>
                     </div>
-                    <div className="">
-                        <Button outline>Follow</Button>
+                    <div className="w-52">
+                        {follow ? (
+                            <Button outline onClick={handleOnchangeFollow}>
+                                Follow
+                            </Button>
+                        ) : (
+                            <Button text onClick={handleOnchangeFollow}>
+                                Đang follow
+                            </Button>
+                        )}
                     </div>
                 </div>
                 <div className="h-[-700] flex ">

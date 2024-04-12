@@ -35,6 +35,8 @@ function SignIn() {
                     handleGetDetailUser(decoded?.id, data?.access_token);
                 }
             }
+        } else {
+            localStorage.removeItem('access_token');
         }
     }, [isSuccess]);
 

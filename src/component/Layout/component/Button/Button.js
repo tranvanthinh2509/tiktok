@@ -38,7 +38,7 @@ function Button({
     let hoverButton;
 
     if (text) {
-        hoverButton = classNames('hover:bg-[-button-text] mr-2 disabled:opacity-25 px-4');
+        hoverButton = classNames('hover:bg-[-button-text] mr-2 disabled:opacity-25 px-2');
     }
     if (primary) {
         hoverButton = classNames('bg-[-button-primary] border-none text-white hover:opacity-90 mr-2');

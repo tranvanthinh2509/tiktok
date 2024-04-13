@@ -18,6 +18,7 @@ export const getDetailUser = async (id, access_token) => {
             token: `Bearer ${access_token}`,
         },
     });
+    console.log('res ', res);
     return res.data;
 };
 
@@ -34,6 +35,7 @@ export const logoutUser = async () => {
 };
 
 export const updateInfoUser = async (id, data, access_token) => {
+    console.log('data ', data);
     const res = await axiosJWT.put(`${process.env.REACT_APP_API_URL}/user/update-user/${id}`, data, {
         headers: {
             token: `Bearer ${access_token}`,
@@ -46,4 +48,13 @@ export const search = async (searchInput) => {
         `${process.env.REACT_APP_API_URL}/user/search?filter=name&filter=${encodeURIComponent(searchInput)}`,
     );
     return res.data;
+};
+
+export const followUser = async (id, data) => {
+    const res = await axios.put(`${process.env.REACT_APP_API_URL}/user/follow/${id}`, data);
+    return res;
+};
+export const unfollowUser = async (id, data) => {
+    const res = await axios.put(`${process.env.REACT_APP_API_URL}/user/unfollow/${id}`, data);
+    return res;
 };

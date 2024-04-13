@@ -42,8 +42,8 @@ function SignIn() {
 
     const handleGetDetailUser = async (id, token) => {
         const res = await UserService.getDetailUser(id, token);
-        dispatch(updateUser({ ...res?.data, access_token: token }));
         console.log('res ', res);
+        dispatch(updateUser({ ...res?.data, access_token: token }));
     };
     const handleOnChangeEmail = (e) => {
         setEmail(e.target.value);

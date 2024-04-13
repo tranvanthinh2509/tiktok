@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Button from '../../component/Layout/component/Button/Button';
 import { IoMusicalNotesSharp } from 'react-icons/io5';
 import { FaHeart } from 'react-icons/fa';
@@ -16,14 +16,36 @@ import { Wrapper } from '../../component/Popper';
 import AccountItemInfo from '../../component/AccountItemInfo/AccountItemInfo';
 import Image from '../Image/Image';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useMutationHooks } from '../../hooks/useMutationHook';
+import * as UserService from '../../services/UserService';
 function MainVideo({ fakeUser }) {
+    const user = useSelector((state) => state.user);
     const videoRef = useRef();
     const [play, setPlay] = useState(false);
     const [hoverVideo, setHoverVideo] = useState(false);
     const [showVolume, setShowVolume] = useState(true);
-    const [follow, setFollow] = useState(true);
+    const [followed, setFollowed] = useState(user.followings.includes(`${fakeUser.userId._id}`));
+
+    useEffect(() => {
+        setFollowed(user.followings.includes(`${fakeUser.userId._id}`));
+    }, [user]);
+
+    const mutation = useMutationHooks((data) => {
+        const { id, userId } = data;
+        UserService.followUser(id, { userId: userId });
+    });
+    const mutation1 = useMutationHooks((data) => {
+        const { id, userId } = data;
+        UserService.unfollowUser(id, { userId: userId });
+    });
     const handleOnchangeFollow = () => {
-        setFollow(!follow);
+        mutation.mutate({ id: fakeUser.userId._id, userId: user.id });
+        setFollowed(!followed);
+    };
+    const handleOnchangeUnFollow = () => {
+        mutation1.mutate({ id: fakeUser.userId._id, userId: user.id });
+        setFollowed(!followed);
     };
     const navigate = useNavigate();
     const handlePlay = () => {
@@ -59,7 +81,7 @@ function MainVideo({ fakeUser }) {
                     alt="avatar"
                 />
             </HeadlessTippy>
-            <div className=" ml-3 ">
+            <div className=" ml-3 flex-1">
                 <div className="Header flex mb-3">
                     <div className="info w-[-510] ">
                         <HeadlessTippy
@@ -81,7 +103,7 @@ function MainVideo({ fakeUser }) {
                                 <p className="text-[-14] leading-7">{fakeUser?.userId?.nickName}</p>
                             </div>
                         </HeadlessTippy>
-                        <div className="">
+                        <div className="w-11/12">
                             <h1 className="mr-1 text-[-18]">{fakeUser?.description}</h1>
                             <p className="text-blue-600 text-[-18]">{fakeUser?.tag || '#Xuhuong'}</p>
                         </div>
@@ -92,14 +114,14 @@ function MainVideo({ fakeUser }) {
                             <p className="leading-6 text-[-14] ml-1">{fakeUser?.music || 'Nhạc nền'}</p>
                         </div>
                     </div>
-                    <div className="w-52">
-                        {follow ? (
-                            <Button outline onClick={handleOnchangeFollow}>
-                                Follow
+                    <div className="w-28">
+                        {followed ? (
+                            <Button text onClick={handleOnchangeUnFollow}>
+                                Đang follow
                             </Button>
                         ) : (
-                            <Button text onClick={handleOnchangeFollow}>
-                                Đang follow
+                            <Button outline onClick={handleOnchangeFollow}>
+                                Follow
                             </Button>
                         )}
                     </div>
@@ -167,7 +189,7 @@ function MainVideo({ fakeUser }) {
                             <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
                                 <FaHeart fontSize="24px" />
                             </div>
-                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.liked || 0}</p>
+                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.liked.lenght || 0}</p>
                         </div>
                         <div className="flex-col-reverse text-center">
                             <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
@@ -179,14 +201,14 @@ function MainVideo({ fakeUser }) {
                             <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
                                 <HiBookmark fontSize="24px" />
                             </div>
-                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.saved || 0}</p>
+                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.liked.lenght || 0}</p>
                         </div>
 
                         <div className="flex-col-reverse text-center">
                             <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
                                 <FaShare fontSize="24px" />
                             </div>
-                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.shared || 0}</p>
+                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.liked.lenght || 0}</p>
                         </div>
                     </div>
                 </div>

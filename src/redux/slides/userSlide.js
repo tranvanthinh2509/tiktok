@@ -7,8 +7,8 @@ const initialState = {
     nickName: '',
     story: '',
     avatar: '',
-    following: '',
-    follower: '',
+    followings: [],
+    followers: [],
     like: '',
     access_token: '',
     isAdmin: false,
@@ -27,8 +27,8 @@ export const userSlide = createSlice({
                 nickName = '',
                 story = '',
                 avatar = '',
-                following = '',
-                follower = '',
+                followings = [],
+                followers = [],
                 like = '',
                 isAdmin,
             } = action.payload;
@@ -38,8 +38,8 @@ export const userSlide = createSlice({
             state.nickName = nickName;
             state.story = story;
             state.avatar = avatar;
-            state.following = following;
-            state.follower = follower;
+            state.followings = followings;
+            state.followers = followers;
             state.like = like;
             state.access_token = access_token;
             state.isAdmin = isAdmin;
@@ -51,8 +51,8 @@ export const userSlide = createSlice({
             state.nickName = '';
             state.avatar = '';
             state.story = '';
-            state.following = '';
-            state.follower = '';
+            state.followers = [];
+            state.followers = [];
             state.like = '';
             state.access_token = '';
             state.isAdmin = false;

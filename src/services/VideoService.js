@@ -35,3 +35,8 @@ export const deleteVideo = async (id, access_token) => {
     });
     return res.data;
 };
+
+export const likeVideo = async (id, data) => {
+    const res = await axios.put(`${process.env.REACT_APP_API_URL}/video/like/${id}`, data);
+    return res;
+};

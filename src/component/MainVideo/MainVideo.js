@@ -19,18 +19,22 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMutationHooks } from '../../hooks/useMutationHook';
 import * as UserService from '../../services/UserService';
+import * as VideoService from '../../services/VideoService';
 function MainVideo({ fakeUser }) {
     const user = useSelector((state) => state.user);
     const videoRef = useRef();
     const [play, setPlay] = useState(false);
     const [hoverVideo, setHoverVideo] = useState(false);
     const [showVolume, setShowVolume] = useState(true);
-    const [followed, setFollowed] = useState(user.followings.includes(`${fakeUser.userId._id}`));
+    const [followed, setFollowed] = useState(false);
+    const [liked, setLiked] = useState(false);
 
     useEffect(() => {
         setFollowed(user.followings.includes(`${fakeUser.userId._id}`));
-    }, [user]);
 
+        setLiked(fakeUser.liked.includes(`${user.id}`));
+    }, [user]);
+    const [likedLength, setLikedLength] = useState(fakeUser?.liked.length);
     const mutation = useMutationHooks((data) => {
         const { id, userId } = data;
         UserService.followUser(id, { userId: userId });
@@ -39,9 +43,18 @@ function MainVideo({ fakeUser }) {
         const { id, userId } = data;
         UserService.unfollowUser(id, { userId: userId });
     });
+    const mutationLike = useMutationHooks((data) => {
+        const { id, userId } = data;
+        VideoService.likeVideo(id, { userId: userId });
+    });
     const handleOnchangeFollow = () => {
         mutation.mutate({ id: fakeUser.userId._id, userId: user.id });
         setFollowed(!followed);
+    };
+    const handleOnchangeLike = () => {
+        mutationLike.mutate({ id: fakeUser._id, userId: user.id });
+        setLiked(!liked);
+        setLikedLength(!liked ? likedLength + 1 : likedLength - 1);
     };
     const handleOnchangeUnFollow = () => {
         mutation1.mutate({ id: fakeUser.userId._id, userId: user.id });
@@ -60,7 +73,7 @@ function MainVideo({ fakeUser }) {
     const handleDetailVideo = (id) => {
         navigate(`/profile/video/${id}`);
     };
-
+    console.log('fake ', fakeUser);
     return (
         <div index="1" className="flex py-5 max-w-[-692] justify-between h-auto ">
             <HeadlessTippy
@@ -115,14 +128,19 @@ function MainVideo({ fakeUser }) {
                         </div>
                     </div>
                     <div className="w-28">
-                        {followed ? (
-                            <Button text onClick={handleOnchangeUnFollow}>
-                                Đang follow
-                            </Button>
-                        ) : (
-                            <Button outline onClick={handleOnchangeFollow}>
-                                Follow
-                            </Button>
+                        {fakeUser.userId._id === user.id || (
+                            <div>
+                                {' '}
+                                {followed ? (
+                                    <Button text onClick={handleOnchangeUnFollow}>
+                                        Đang follow
+                                    </Button>
+                                ) : (
+                                    <Button outline onClick={handleOnchangeFollow}>
+                                        Follow
+                                    </Button>
+                                )}
+                            </div>
                         )}
                     </div>
                 </div>
@@ -186,10 +204,23 @@ function MainVideo({ fakeUser }) {
                     </div>
                     <div className="action h-full flex flex-col justify-end">
                         <div className="flex-col-reverse text-center">
-                            <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
-                                <FaHeart fontSize="24px" />
-                            </div>
-                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.liked.lenght || 0}</p>
+                            {liked ? (
+                                <div
+                                    className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200"
+                                    onClick={handleOnchangeLike}
+                                >
+                                    <FaHeart fontSize="24px" color="red" />
+                                </div>
+                            ) : (
+                                <div
+                                    className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200"
+                                    onClick={handleOnchangeLike}
+                                >
+                                    <FaHeart fontSize="24px" />
+                                </div>
+                            )}
+
+                            <p className="text-xs text-gray-500 font-bold">{likedLength}</p>
                         </div>
                         <div className="flex-col-reverse text-center">
                             <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">

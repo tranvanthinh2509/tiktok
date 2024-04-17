@@ -60,6 +60,9 @@ export const unfollowUser = async (id, data) => {
 
 export const followingUser = async (id) => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/user/getFollowing/${id}`);
-
+    return res.data;
+};
+export const NotFollowingUser = async (id) => {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/user/getNotFollowing/${id}`);
     return res.data;
 };

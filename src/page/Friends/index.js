@@ -1,5 +1,4 @@
 import UserNotFollow from '../../component/UserNotFollow/UserNotFollow';
-
 function Friends() {
     return (
         <div className="w-full flex justify-center pt-5 mt-16">

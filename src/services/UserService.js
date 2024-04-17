@@ -18,7 +18,6 @@ export const getDetailUser = async (id, access_token) => {
             token: `Bearer ${access_token}`,
         },
     });
-    console.log('res ', res);
     return res.data;
 };
 
@@ -57,4 +56,10 @@ export const followUser = async (id, data) => {
 export const unfollowUser = async (id, data) => {
     const res = await axios.put(`${process.env.REACT_APP_API_URL}/user/unfollow/${id}`, data);
     return res;
+};
+
+export const followingUser = async (id) => {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/user/getFollowing/${id}`);
+
+    return res.data;
 };

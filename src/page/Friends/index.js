@@ -18,9 +18,7 @@ function Friends() {
     const mutationVideoBG = useMutationHooks(async (data) => {
         const { id } = data;
         const res = await VideoService.getARecentVideo(id);
-        if (res.data !== null) {
-            arrVideo.push(res.data);
-        }
+        arrVideo.push(res.data);
         setVideoFriend(arrVideo);
     });
 
@@ -29,13 +27,13 @@ function Friends() {
             mutation.mutate({ id: user.id });
         }
     }, [user]);
+
     useEffect(() => {
         for (let i = 0; i < friends.length; i++) {
             mutationVideoBG.mutate({ id: friends[i]._id });
         }
     }, [friends, user]);
 
-    console.log('res123 ', videoFriend);
     return (
         <div className="w-full flex justify-center pt-5 mt-16">
             <div className="grid grid-cols-3 gap-4">

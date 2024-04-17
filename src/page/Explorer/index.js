@@ -28,12 +28,6 @@ function Explorer() {
             <div id="navbar" className="ml-12 fixed z-10 top-16 pt-6 pb-4 bg-white w-full">
                 <div className="flex">
                     <Button explorer> Ca hát & Khiêu vũ</Button>
-                    <Button explorer> Ca hát & Khiêu vũ</Button>
-                    <Button explorer> Ca hát & Khiêu vũ</Button>
-                    <Button explorer> Ca hát & Khiêu vũ</Button>
-                    <Button explorer> Ca hát & Khiêu vũ</Button>
-                    <Button explorer> Ca hát & Khiêu vũ</Button>
-                    <Button explorer> Ca hát & Khiêu vũ</Button>
                 </div>
             </div>
             <div>

@@ -6,13 +6,16 @@ import { useSelector } from 'react-redux';
 import Image from '../../component/Image/Image';
 import { useEffect, useState } from 'react';
 import UpdateInfoUser from '../../component/UpdateInfoUser/UpdateInfoUser';
-import { data } from 'jquery';
+import * as UserService from '../../services/UserService';
+import * as VideoService from '../../services/VideoService';
+import { useMutationHooks } from '../../hooks/useMutationHook';
 function Profile() {
     const user = useSelector((state) => state.user);
 
     const [updateInfoUser, setUpdateInfoUser] = useState(false);
     const [userName, setUserName] = useState('');
     const [userAvatar, setUserAvartar] = useState('');
+    const [videoOfMe, setVideoOfMe] = useState([]);
     useEffect(() => {
         setUserName(user?.name);
         setUserAvartar(user?.avatar);
@@ -20,6 +23,16 @@ function Profile() {
     const handleUpdateInfoUser = () => {
         setUpdateInfoUser(true);
     };
+    const mutation = useMutationHooks(async (data) => {
+        const { id } = data;
+        const res = await VideoService.getFollowingVideo(id);
+        setVideoOfMe(res.data);
+    });
+    useEffect(() => {
+        if (user) {
+            mutation.mutate({ id: user.id });
+        }
+    }, [user]);
 
     return (
         <div>
@@ -52,15 +65,11 @@ function Profile() {
                     </div>
                     <div className="flex mt-5">
                         <div className="flex text-center leading-6 mr-6">
-                            <span className="text-[-18] font-semibold mr-2">
-                                {user?.following === '' ? '0' : user.following}
-                            </span>
+                            <span className="text-[-18] font-semibold mr-2">{user.followings.length || 0}</span>
                             <span className="text-[-18] font-normal">Đang follow</span>
                         </div>
                         <div className="flex text-center leading-6 mr-6">
-                            <span className="text-[-18] font-semibold mr-2">
-                                {user?.follower === '' ? '0' : user.follower}
-                            </span>
+                            <span className="text-[-18] font-semibold mr-2">{user.followers.length || 0}</span>
                             <span className="text-[-18] font-normal">Follower</span>
                         </div>
                         <div className="flex text-center leading-6 mr-6">
@@ -68,7 +77,7 @@ function Profile() {
                             <span className="text-[-18] font-normal">Thích</span>
                         </div>
                     </div>
-                    <p className="mt-3 text-[-18] font-medium">Chưa có tiểu sử</p>
+                    <p className="mt-3 text-[-18] font-medium">{user.story || 'Chưa có tiểu sử'}</p>
                 </div>
                 <div className="mt-3 flex relative before:absolute before:content-[''] before:w-full before:h-0.5 before:bg-gray-200 before:bottom-0">
                     <button className="px-8 py-3 text-gray-600  hover:text-black hover:relative hover:after:absolute hover:after:content-[''] hover:after:w-full hover:after:h-0.5 hover:after:bg-black hover:after:bottom-0 hover:after:left-0">
@@ -84,15 +93,9 @@ function Profile() {
                     </button>
                 </div>
                 <div className="flex flex-wrap">
-                    <ProfileVideo />
-                    <ProfileVideo />
-                    <ProfileVideo />
-                    <ProfileVideo />
-                    <ProfileVideo />
-                    <ProfileVideo />
-                    <ProfileVideo />
-                    <ProfileVideo />
-                    <ProfileVideo />
+                    {videoOfMe.map((video) => {
+                        return <ProfileVideo fakeVideo={video} />;
+                    })}
                 </div>
             </div>
         </div>

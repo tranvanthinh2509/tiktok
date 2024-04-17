@@ -1,10 +1,14 @@
 import { useRef } from 'react';
 import { LuPlay } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
 import 'tippy.js/dist/tippy.css';
 
-function ProfileVideo() {
+function ProfileVideo({ fakeVideo }) {
     const videoRef = useRef();
-
+    const navigate = useNavigate();
+    const handleDetailVideo = (id) => {
+        navigate(`/profile/video/${id}`);
+    };
     return (
         <div
             index="1"
@@ -15,6 +19,7 @@ function ProfileVideo() {
             onMouseLeave={() => {
                 videoRef.current.pause();
             }}
+            onDoubleClick={() => handleDetailVideo(fakeVideo._id)}
         >
             <div className="relative">
                 <video
@@ -22,9 +27,8 @@ function ProfileVideo() {
                     ref={videoRef}
                     className="hover:cursor-pointer w-52 h-64 object-cover mr-4 rounded-md "
                     loop
-                >
-                    <source src="https://files.fullstack.edu.vn/f8-tiktok/videos/3135-6528128e8d3b6.mp4" />
-                </video>
+                    src={fakeVideo.video}
+                ></video>
                 <div>
                     <div className=" absolute h-10 bottom-1 left-4 flex text-center justify-center text-white">
                         <LuPlay color="#fff" fontSize="22px" />
@@ -32,7 +36,7 @@ function ProfileVideo() {
                     </div>
                 </div>
             </div>
-            <h1 className="mr-1 my-2 text-[-16]  font-semibold leading-5">delivery staff confronting dogs</h1>
+            <h1 className="mr-1 my-2 text-[-16]  font-semibold leading-5">{fakeVideo.description}</h1>
         </div>
     );
 }

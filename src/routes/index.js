@@ -8,6 +8,7 @@ import Profile from '../page/Profile';
 import Video from '../page/Video/Video';
 import SystemAdminUpload from '../page/SystemAdminUpload/SystemAdminUpload';
 import SystemAdmin from '../page/SystemAdmin/SystemAdmin';
+import DetailUser from '../page/DetailUser/DetailUser';
 import { HeaderOnly } from '../component/Layout';
 
 const publicRoutes = [
@@ -30,6 +31,10 @@ const publicRoutes = [
     {
         path: '/profile',
         component: Profile,
+    },
+    {
+        path: '/user/:id',
+        component: DetailUser,
     },
     {
         path: '/profile/video/:id',

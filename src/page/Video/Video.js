@@ -35,6 +35,9 @@ function Video() {
         console.log('res ', res);
         setVideoDetail(res.data);
     };
+    useEffect(() => {
+        fetchDetailVideo(id);
+    }, [id]);
 
     // const { isLoading, data: videoDetails } = useQuery({
     //     queryKey: ['videos'],
@@ -46,10 +49,6 @@ function Video() {
     //     .then((res) => {
     //         console.log('res ', res.data);
     //     });
-    useEffect(() => {
-        fetchDetailVideo(id);
-    }, [id]);
-    console.log('video', videoDetail);
 
     const handlePlay = () => {
         if (play) {
@@ -197,19 +196,19 @@ function Video() {
                                 <div className=" mr-1 px-2 py-2 rounded-[-50%] bg-slate-200">
                                     <FaHeart fontSize="14px" />
                                 </div>
-                                <p className="text-xs text-gray-500 font-bold">{videoDetail.liked || '0'}</p>
+                                <p className="text-xs text-gray-500 font-bold">{videoDetail.liked.length || '0'}</p>
                             </div>
                             <div className="flex items-center mr-3">
                                 <div className=" mr-1 px-2 py-2 rounded-[-50%] bg-slate-200">
                                     <AiFillMessage fontSize="14px" />
                                 </div>
-                                <p className="text-xs text-gray-500 font-bold">{videoDetail.messaged || '0'}</p>
+                                <p className="text-xs text-gray-500 font-bold">{videoDetail.liked.length || '0'}</p>
                             </div>
                             <div className="flex items-center mr-3">
                                 <div className=" mr-1 px-2 py-2 rounded-[-50%] bg-slate-200">
                                     <HiBookmark fontSize="14px" />
                                 </div>
-                                <p className="text-xs text-gray-500 font-bold">{videoDetail.saved || '0'}</p>
+                                <p className="text-xs text-gray-500 font-bold">{videoDetail.liked.length || '0'}</p>
                             </div>
                         </div>
                     </div>

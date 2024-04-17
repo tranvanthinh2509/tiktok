@@ -21,16 +21,16 @@ function Sidebar() {
             title: 'Bạn bè',
             to: '/friends',
         },
-        {
-            icon: <LetGo />,
-            title: 'Khám phá',
-            to: '/explorer',
-        },
-        {
-            icon: <LiveAction />,
-            title: 'Live',
-            to: '/following1',
-        },
+        // {
+        //     icon: <LetGo />,
+        //     title: 'Khám phá',
+        //     to: '/explorer',
+        // },
+        // {
+        //     icon: <LiveAction />,
+        //     title: 'Live',
+        //     to: '/following1',
+        // },
         {
             avatar: 'https://i1.sndcdn.com/artworks-i0nLuYBs0dR2nsn4-AkxVlg-t500x500.jpg',
             title: 'Hồ sơ',

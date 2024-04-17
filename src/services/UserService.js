@@ -66,3 +66,8 @@ export const NotFollowingUser = async (id) => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/user/getNotFollowing/${id}`);
     return res.data;
 };
+
+export const getOnelUser = async (id) => {
+    const res = await axiosJWT.get(`${process.env.REACT_APP_API_URL}/user/getOneUser/${id}`);
+    return res.data;
+};

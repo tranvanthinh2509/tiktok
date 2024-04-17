@@ -73,7 +73,9 @@ function MainVideo({ fakeUser }) {
     const handleDetailVideo = (id) => {
         navigate(`/profile/video/${id}`);
     };
-    console.log('fake ', fakeUser);
+    const handleDetailUser = (id) => {
+        navigate(`/user/${id}`);
+    };
     return (
         <div index="1" className="flex py-5 max-w-[-692] justify-between h-auto ">
             <HeadlessTippy
@@ -92,6 +94,10 @@ function MainVideo({ fakeUser }) {
                     className="w-14 h-14 object-cover rounded-[-50%] cursor-pointer"
                     src={fakeUser?.userId?.avatar}
                     alt="avatar"
+                    onClick={() => {
+                        handleDetailUser(fakeUser.userId._id);
+                        console.log('fakeUser ', fakeUser.userId._id);
+                    }}
                 />
             </HeadlessTippy>
             <div className=" ml-3 flex-1">
@@ -159,7 +165,7 @@ function MainVideo({ fakeUser }) {
                             muted={showVolume ? true : false}
                             ref={videoRef}
                             onClick={handlePlay}
-                            className="hover:cursor-pointer h-[-700] mr-5 rounded-xl "
+                            className="hover:cursor-pointer h-[-700] object-cover rounded-xl "
                             loop
                             src={fakeUser?.video}
                         ></video>
@@ -202,7 +208,7 @@ function MainVideo({ fakeUser }) {
                             </button>
                         )}
                     </div>
-                    <div className="action h-full flex flex-col justify-end">
+                    <div className="action h-full flex flex-col justify-end ml-5">
                         <div className="flex-col-reverse text-center">
                             {liked ? (
                                 <div
@@ -222,7 +228,7 @@ function MainVideo({ fakeUser }) {
 
                             <p className="text-xs text-gray-500 font-bold">{likedLength}</p>
                         </div>
-                        <div className="flex-col-reverse text-center">
+                        <div className="flex-col-reverse text-center ">
                             <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
                                 <AiFillMessage fontSize="24px" />
                             </div>

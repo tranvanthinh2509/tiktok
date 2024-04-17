@@ -43,7 +43,7 @@ function UserNotFollow({ fakeVideo }) {
                         <h1 className="flex items-center mb-2 cursor-pointer">
                             <span className="text-[-14] font-semibold text-white ">{fakeVideo.userId.nickName}</span>
                             {/* {fakeVideo.userId.tick} && */}
-                            <FaCheckCircle fontSize="20px" color="rgb(32, 213, 236)" className="ml-1" />
+                            <FaCheckCircle fontSize="14px" color="rgb(32, 213, 236)" className="ml-1" />
                         </h1>
                         <Button noOutline>Follow</Button>
                     </div>

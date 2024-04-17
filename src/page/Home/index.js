@@ -9,7 +9,6 @@ function Home() {
         return res;
     };
     const { isLoading, data: videos } = useQuery({ queryKey: 'videos', queryFn: fetchVideoAll });
-    console.log('data ', videos);
     return (
         <div>
             <div className="w-full flex flex-col items-center mt-16 ">

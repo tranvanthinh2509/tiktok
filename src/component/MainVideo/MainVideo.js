@@ -47,14 +47,15 @@ function MainVideo({ fakeUser }) {
         const { id, userId } = data;
         VideoService.likeVideo(id, { userId: userId });
     });
-    const handleOnchangeFollow = () => {
-        mutation.mutate({ id: fakeUser.userId._id, userId: user.id });
-        setFollowed(!followed);
-    };
+
     const handleOnchangeLike = () => {
         mutationLike.mutate({ id: fakeUser._id, userId: user.id });
         setLiked(!liked);
         setLikedLength(!liked ? likedLength + 1 : likedLength - 1);
+    };
+    const handleOnchangeFollow = () => {
+        mutation.mutate({ id: fakeUser.userId._id, userId: user.id });
+        setFollowed(!followed);
     };
     const handleOnchangeUnFollow = () => {
         mutation1.mutate({ id: fakeUser.userId._id, userId: user.id });

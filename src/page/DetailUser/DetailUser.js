@@ -1,11 +1,9 @@
 import Button from '../../component/Layout/component/Button/Button';
-import { PiNotePencilBold } from 'react-icons/pi';
 import { PiLockKeyFill } from 'react-icons/pi';
 import ProfileVideo from '../../component/ProfileVideo/ProfileVideo';
 import { useSelector } from 'react-redux';
 import Image from '../../component/Image/Image';
 import { useEffect, useState } from 'react';
-import UpdateInfoUser from '../../component/UpdateInfoUser/UpdateInfoUser';
 import * as VideoService from '../../services/VideoService';
 import * as UserService from '../../services/UserService';
 import { useMutationHooks } from '../../hooks/useMutationHook';
@@ -15,8 +13,11 @@ function DetailUser() {
     const user = useSelector((state) => state.user);
     const [videoOfMe, setVideoOfMe] = useState([]);
     const [userDetail, setUserDetail] = useState(user);
+
     const { id } = useParams();
     const [loading, setLoading] = useState(true);
+    const [followed, setFollowed] = useState(false);
+
     const mutationOneUser = useMutationHooks(async (data) => {
         const { id } = data;
         const res = await UserService.getOnelUser(id);
@@ -30,8 +31,27 @@ function DetailUser() {
         const { id } = data;
         const res = await VideoService.getFollowingVideo(id);
         setVideoOfMe(res.data);
+        setFollowed(user.followings.includes(userDetail._id));
         setLoading(false);
     });
+
+    const mutationFollow = useMutationHooks((data) => {
+        const { id, userId } = data;
+        UserService.followUser(id, { userId: userId });
+    });
+    const mutationUnFollow = useMutationHooks((data) => {
+        const { id, userId } = data;
+        UserService.unfollowUser(id, { userId: userId });
+    });
+    const handleOnchangeFollow = () => {
+        mutationFollow.mutate({ id: userDetail._id, userId: user.id });
+        setFollowed(!followed);
+    };
+
+    const handleOnchangeUnFollow = () => {
+        mutationUnFollow.mutate({ id: userDetail._id, userId: user.id });
+        setFollowed(!followed);
+    };
     useEffect(() => {
         if (user) {
             mutation.mutate({ id: userDetail._id });
@@ -54,6 +74,17 @@ function DetailUser() {
                                 <p className="text-[-18] font-semibold mb-3">
                                     {userDetail?.nickName === '' ? userDetail.name : userDetail.nickName}
                                 </p>
+                                <div>
+                                    {followed ? (
+                                        <Button text onClick={handleOnchangeUnFollow}>
+                                            Đang follow
+                                        </Button>
+                                    ) : (
+                                        <Button outline onClick={handleOnchangeFollow}>
+                                            Follow
+                                        </Button>
+                                    )}
+                                </div>
                             </div>
                         </div>
                         <div className="flex mt-5">

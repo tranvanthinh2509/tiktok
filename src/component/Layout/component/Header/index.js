@@ -158,7 +158,9 @@ function Header() {
                 />
             )}
             <div className="header fixed w-full z-20 pl-4 pr-5 h-16 border-b border-b-gray flex items-center justify-between bg-white">
-                <img className="logo" src={images.logo.default} alt="tik-tok" />
+                <div className="w-72 m-2">
+                    <img className="logo" src={images.logo.default} alt="tik-tok" />
+                </div>
 
                 {/* Search */}
                 <Search />

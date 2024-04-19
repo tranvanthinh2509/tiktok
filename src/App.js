@@ -17,6 +17,7 @@ function App() {
     const user = useSelector((state) => state.user);
     useEffect(() => {
         const { storageData, decoded } = handleDecoded();
+
         if (decoded?.id) {
             handleGetDetailUser(decoded?.id, storageData);
         }
@@ -53,13 +54,6 @@ function App() {
         },
     );
 
-    // const fetchApi = async () => {
-    //     const res = axios.get(`${process.env.REACT_APP_API_URL}/video/getAll`);
-    //     return res;
-    // };
-
-    // const query = useQuery({ queryKey: ['todos'], queryFn: fetchApi });
-    // console.log(query);
     return (
         <div>
             <Loading isLoading={isLoading}>

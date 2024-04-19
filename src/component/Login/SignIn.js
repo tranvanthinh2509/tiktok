@@ -25,8 +25,6 @@ function SignIn() {
         if (isSuccess) {
             // navigate('/');
             window.location = 'http://localhost:3000/';
-            console.log('data: ', data);
-
             localStorage.setItem('access_token', JSON.stringify(data?.access_token));
             if (data?.access_token) {
                 const decoded = jwtDecode(data?.access_token);
@@ -35,14 +33,11 @@ function SignIn() {
                     handleGetDetailUser(decoded?.id, data?.access_token);
                 }
             }
-        } else {
-            localStorage.removeItem('access_token');
         }
     }, [isSuccess]);
 
     const handleGetDetailUser = async (id, token) => {
         const res = await UserService.getDetailUser(id, token);
-        console.log('res ', res);
         dispatch(updateUser({ ...res?.data, access_token: token }));
     };
     const handleOnChangeEmail = (e) => {
@@ -57,9 +52,6 @@ function SignIn() {
             email,
             password,
         });
-        console.log(mutation);
-        console.log('email ', email);
-        console.log('password ', password);
     };
 
     return (

@@ -57,6 +57,8 @@ module.exports = {
             },
             textColor: {
                 '[text-color]': 'rgb(22, 24, 35)',
+
+                '[text-primary]': 'rgb(254, 44, 85)',
             },
             minWidth: {
                 '[w-100]': '100px',

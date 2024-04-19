@@ -45,5 +45,6 @@ export const getFollowingVideo = async (id) => {
 };
 export const getARecentVideo = async (id) => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/video/a_recent/${id}`);
+    console.log('res ', res);
     return res.data;
 };

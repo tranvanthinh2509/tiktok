@@ -1,4 +1,3 @@
-import UserNotFollow from '../../component/UserNotFollow/UserNotFollow';
 import MainVideo from '../../component/MainVideo/MainVideo';
 import { useMutationHooks } from '../../hooks/useMutationHook';
 import * as UserService from '../../services/UserService';
@@ -6,7 +5,7 @@ import * as VideoService from '../../services/VideoService';
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Loading from '../../component/LoadingComponent/Loading';
-
+import NoLogin from '../../component/NoLogin/NoLogin';
 function Following() {
     const user = useSelector((state) => state.user);
     const [following, setFollowing] = useState(user.id);
@@ -24,6 +23,8 @@ function Following() {
         const res = await VideoService.getFollowingVideo(id);
         videoFollowing.push(...res.data);
         setArrFollowing(videoFollowing);
+
+        setLoading(false);
     });
 
     useEffect(() => {
@@ -38,22 +39,18 @@ function Following() {
             mutationFolowingVideo.mutate({ id: userFollowing[i]._id });
         }
     }, [userFollowing, user]);
-
     return (
         <div>
-            {following ? (
+            {user.id ? (
                 <div className="w-full flex flex-col items-center mt-16">
-                    {arrFollowing?.map((following) => {
-                        return <MainVideo fakeUser={following} />;
-                    })}
+                    <Loading isLoading={loading}>
+                        {arrFollowing?.map((following) => {
+                            return <MainVideo fakeUser={following} />;
+                        })}
+                    </Loading>
                 </div>
             ) : (
-                <div className="w-full flex justify-center pt-5 mt-16">
-                    <div className="grid grid-cols-3 gap-4">
-                        <UserNotFollow />
-                        <UserNotFollow />
-                    </div>
-                </div>
+                <NoLogin />
             )}
         </div>
     );

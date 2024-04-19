@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { Home, Following, Friendl, LetGo, LiveAction } from '../../../Icons';
 import { useSelector } from 'react-redux';
 import Image from '../../../Image/Image';
+import AccountFollow from '../../../AccountFollow/AccountFollow';
 
 function Sidebar() {
     const user = useSelector((state) => state.user);
@@ -68,10 +69,7 @@ function Sidebar() {
                     })}
                 </div>
                 <div className="AccoutFollowing py-4 pl-2 border-b border-gray-300">
-                    <h1 className="text-[-16] font-semibold text-gray-500">Các tài khoảng đang follow</h1>
-                    <p className="text-[-14] mt-1 font-semibold text-gray-400">
-                        Những tài khoản bạn đang following sẽ xuất hiện tại dây
-                    </p>
+                    <AccountFollow />
                 </div>
                 <div className="Footer pt-4 pl-2">
                     <div className="relative">

@@ -74,7 +74,9 @@ function MainVideo({ fakeUser }) {
         navigate(`/profile/video/${id}`);
     };
     const handleDetailUser = (id) => {
-        navigate(`/user/${id}`);
+        if (id !== user.id) {
+            navigate(`/user/${id}`);
+        }
     };
     return (
         <div index="1" className="flex py-5 max-w-[-692] justify-between h-auto ">
@@ -96,7 +98,6 @@ function MainVideo({ fakeUser }) {
                     alt="avatar"
                     onClick={() => {
                         handleDetailUser(fakeUser.userId._id);
-                        console.log('fakeUser ', fakeUser.userId._id);
                     }}
                 />
             </HeadlessTippy>
@@ -116,7 +117,12 @@ function MainVideo({ fakeUser }) {
                             )}
                         >
                             <div className="flex text-center ">
-                                <h1 className="text-[-18] font-bold mr-1 leading-6 hover:underline hover:decoration-1 hover:cursor-pointer">
+                                <h1
+                                    className="text-[-18] font-bold mr-1 leading-6 hover:underline hover:decoration-1 hover:cursor-pointer"
+                                    onClick={() => {
+                                        handleDetailUser(fakeUser.userId._id);
+                                    }}
+                                >
                                     {fakeUser?.userId?.name}
                                 </h1>
                                 <p className="text-[-14] leading-7">{fakeUser?.userId?.nickName}</p>

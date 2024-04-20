@@ -29,9 +29,11 @@ import { IoFastFood } from 'react-icons/io5';
 import * as UserService from '../../../../services/UserService';
 import { resetUser } from '../../../../redux/slides/userSlide';
 import { MenuItem } from '@material-tailwind/react';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
     const user = useSelector((state) => state.user);
+    const navigate = useNavigate();
 
     let curentUser = false;
     if (user?.email) {
@@ -45,10 +47,10 @@ function Header() {
         localStorage.removeItem('access_token');
     };
     const MENU_ITEMS = [
-        {
-            icon: <IdeaIcon />,
-            title: 'Trung tâm sáng táo nội dung',
-        },
+        // {
+        //     icon: <IdeaIcon />,
+        //     title: 'Trung tâm sáng táo nội dung',
+        // },
         {
             icon: <VietNamese />,
             title: 'Tiếng việt',
@@ -68,42 +70,44 @@ function Header() {
                 ],
             },
         },
-        {
-            icon: <Question />,
-            title: 'Phản hồi và trợ giúp',
-        },
-        {
-            icon: <KeyBoard />,
-            title: 'Phím tắt trên bàn phím',
-        },
+        // ,
+        // {
+        //     icon: <Question />,
+        //     title: 'Phản hồi và trợ giúp',
+        // },
+        // {
+        //     icon: <KeyBoard />,
+        //     title: 'Phím tắt trên bàn phím',
+        // },
     ];
 
     const User_MENU = [
         {
             icon: <Profile />,
             title: 'Xem hồ sơ',
+            to: '/profile',
         },
-        {
-            icon: <Love />,
-            title: 'Yêu thích',
-        },
-        {
-            icon: <GiveCoin />,
-            title: 'Nhận xu',
-        },
-        {
-            icon: <Live />,
-            title: 'Live Studio',
-        },
+        // {
+        //     icon: <Love />,
+        //     title: 'Yêu thích',
+        // },
+        // {
+        //     icon: <GiveCoin />,
+        //     title: 'Nhận xu',
+        // },
+        // {
+        //     icon: <Live />,
+        //     title: 'Live Studio',
+        // },
 
-        {
-            icon: <IdeaIcon />,
-            title: 'Trung tâm sáng táo nội dung',
-        },
-        {
-            icon: <Setting />,
-            title: 'Cài đặt',
-        },
+        // {
+        //     icon: <IdeaIcon />,
+        //     title: 'Trung tâm sáng táo nội dung',
+        // },
+        // {
+        //     icon: <Setting />,
+        //     title: 'Cài đặt',
+        // },
         {
             icon: <VietNamese />,
             title: 'Tiếng việt',
@@ -123,14 +127,14 @@ function Header() {
                 ],
             },
         },
-        {
-            icon: <Question />,
-            title: 'Phản hồi và trợ giúp',
-        },
-        {
-            icon: <KeyBoard />,
-            title: 'Phím tắt trên bàn phím',
-        },
+        // {
+        //     icon: <Question />,
+        //     title: 'Phản hồi và trợ giúp',
+        // },
+        // {
+        //     icon: <KeyBoard />,
+        //     title: 'Phím tắt trên bàn phím',
+        // },
         {
             icon: <Logout />,
             title: 'Đăng xuất',
@@ -147,6 +151,9 @@ function Header() {
     const handleLogin = () => {
         setLogin(true);
     };
+    const goHome = () => {
+        navigate('/');
+    };
 
     return (
         <div>
@@ -159,7 +166,7 @@ function Header() {
             )}
             <div className="header fixed w-full z-20 pl-4 pr-5 h-16 border-b border-b-gray flex items-center justify-between bg-white">
                 <div className="w-72 m-2">
-                    <img className="logo" src={images.logo.default} alt="tik-tok" />
+                    <img className="logo cursor-pointer" src={images.logo.default} alt="tik-tok" onClick={goHome} />
                 </div>
 
                 {/* Search */}

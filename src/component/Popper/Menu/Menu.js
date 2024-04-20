@@ -35,7 +35,7 @@ function Menu({ children, items = [] }) {
             delay={[0, 500]}
             placement="bottom-end"
             render={(atr) => (
-                <div className="m-w-65 py-2  shadow-[-wrapper] rounded-[-8]" tabIndex="-1" {...atr}>
+                <div className="m-w-65 py-2 bg-white shadow-[-wrapper] rounded-[-8] " tabIndex="-1" {...atr}>
                     <Wrapper>
                         {history.length > 1 && (
                             <MenuHeader

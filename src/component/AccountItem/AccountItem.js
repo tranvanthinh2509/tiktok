@@ -1,9 +1,14 @@
 import { FaCheckCircle } from 'react-icons/fa';
 import Image from '../Image/Image';
+import { useNavigate } from 'react-router-dom';
 
 function AccountItem({ data }) {
+    const navigate = useNavigate();
+    const handleDetailUser = (id) => {
+        navigate(`/user/${id}`);
+    };
     return (
-        <div className="flex items-center px-4 py-2">
+        <div className="flex items-center px-4 py-2 w-full cursor-pointer" onClick={() => handleDetailUser(data._id)}>
             <Image src={data.avatar} alt={data.name} className="w-10 h-10 object-cover rounded-[-50%] mr-3" />
             <div>
                 <h1 className="flex items-center">

@@ -2,7 +2,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 
 function MenuHeader({ title, onBack }) {
     return (
-        <div className="relative h-12 w-52">
+        <div className="relative h-12 w-52 z-30 ">
             <button className="h-full " onClick={onBack}>
                 <IoIosArrowBack className="w-5 h-5 ml-7" />
             </button>

@@ -12,7 +12,7 @@ function AccountFollow() {
         setUserFollowing(res.data);
     });
     useEffect(() => {
-        if (user) {
+        if (user.id) {
             mutation.mutate({ id: user.id });
         }
     }, [user]);

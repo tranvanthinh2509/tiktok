@@ -32,29 +32,31 @@ function Friends() {
     });
 
     useEffect(() => {
-        if (user) {
+        if (user.id) {
             mutation.mutate({ id: user.id });
         }
     }, [user]);
 
     useEffect(() => {
-        for (let i = 0; i < friends.length; i++) {
-            mutationVideoBG.mutate({ id: friends[i]._id });
+        if (user.id) {
+            for (let i = 0; i < friends.length; i++) {
+                mutationVideoBG.mutate({ id: friends[i]._id });
+            }
         }
     }, [friends, user]);
 
     return (
         <div>
             {user.id ? (
-                <div className="w-full flex justify-center pt-5 mt-16">
-                    <Loading isLoading={loading}>
-                        <div className="grid grid-cols-3 gap-4">
+                <Loading isLoading={loading}>
+                    <div className="w-full h-screen flex justify-center pt-5 mt-16">
+                        <div className="grid grid-cols-3 gap-3 h-0">
                             {videoFriend.map((video) => {
                                 return <UserNotFollow fakeVideo={video} />;
                             })}
                         </div>
-                    </Loading>
-                </div>
+                    </div>
+                </Loading>
             ) : (
                 <NoLogin />
             )}

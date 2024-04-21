@@ -33,6 +33,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Header() {
     const user = useSelector((state) => state.user);
+    const [toast, setToast] = useState(false);
     const navigate = useNavigate();
 
     let curentUser = false;
@@ -45,6 +46,7 @@ function Header() {
         await UserService.logoutUser();
         dispatch(resetUser());
         localStorage.removeItem('access_token');
+        await window.location.reload();
     };
     const MENU_ITEMS = [
         // {
@@ -164,6 +166,7 @@ function Header() {
                     }}
                 />
             )}
+
             <div className="header fixed w-full z-20 pl-4 pr-5 h-16 border-b border-b-gray flex items-center justify-between bg-white">
                 <div className="w-72 m-2">
                     <img className="logo cursor-pointer" src={images.logo.default} alt="tik-tok" onClick={goHome} />
@@ -174,7 +177,7 @@ function Header() {
 
                 <div className="actor flex items-center">
                     <Button
-                        to="/system/admin/upload"
+                        to={user.id && '/system/admin/upload'}
                         text
                         leftIcon={<FaPlus className="mr-2 w-5 h-5" fontSize="14px" color="#161823" />}
                     >

@@ -44,13 +44,17 @@ function DetailUser() {
         UserService.unfollowUser(id, { userId: userId });
     });
     const handleOnchangeFollow = () => {
-        mutationFollow.mutate({ id: userDetail._id, userId: user.id });
-        setFollowed(!followed);
+        if (user.id) {
+            mutationFollow.mutate({ id: userDetail._id, userId: user.id });
+            setFollowed(!followed);
+        }
     };
 
     const handleOnchangeUnFollow = () => {
-        mutationUnFollow.mutate({ id: userDetail._id, userId: user.id });
-        setFollowed(!followed);
+        if (user.id) {
+            mutationUnFollow.mutate({ id: userDetail._id, userId: user.id });
+            setFollowed(!followed);
+        }
     };
     useEffect(() => {
         if (user) {

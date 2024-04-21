@@ -49,17 +49,23 @@ function MainVideo({ fakeUser }) {
     });
 
     const handleOnchangeLike = () => {
-        mutationLike.mutate({ id: fakeUser._id, userId: user.id });
-        setLiked(!liked);
-        setLikedLength(!liked ? likedLength + 1 : likedLength - 1);
+        if (user.id) {
+            mutationLike.mutate({ id: fakeUser._id, userId: user.id });
+            setLiked(!liked);
+            setLikedLength(!liked ? likedLength + 1 : likedLength - 1);
+        }
     };
     const handleOnchangeFollow = () => {
-        mutation.mutate({ id: fakeUser.userId._id, userId: user.id });
-        setFollowed(!followed);
+        if (user.id) {
+            mutation.mutate({ id: fakeUser.userId._id, userId: user.id });
+            setFollowed(!followed);
+        }
     };
     const handleOnchangeUnFollow = () => {
-        mutation1.mutate({ id: fakeUser.userId._id, userId: user.id });
-        setFollowed(!followed);
+        if (user.id) {
+            mutation1.mutate({ id: fakeUser.userId._id, userId: user.id });
+            setFollowed(!followed);
+        }
     };
     const navigate = useNavigate();
     const handlePlay = () => {

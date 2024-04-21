@@ -17,38 +17,42 @@ function Following() {
         const { id } = data;
         const res = await UserService.followingUser(id);
         setUserFollowing(res.data);
+        if (userFollowing) {
+            setLoading(false);
+        }
     });
     const mutationFolowingVideo = useMutationHooks(async (data) => {
         const { id } = data;
         const res = await VideoService.getFollowingVideo(id);
         videoFollowing.push(...res.data);
         setArrFollowing(videoFollowing);
-
         setLoading(false);
     });
 
     useEffect(() => {
-        if (user) {
+        if (user.id) {
             mutation.mutate({ id: user.id });
         }
         setArrFollowing(arrFollowing);
     }, [user]);
 
     useEffect(() => {
-        for (let i = 0; i < userFollowing.length; i++) {
-            mutationFolowingVideo.mutate({ id: userFollowing[i]._id });
+        if (user.id) {
+            for (let i = 0; i < userFollowing.length; i++) {
+                mutationFolowingVideo.mutate({ id: userFollowing[i]._id });
+            }
         }
     }, [userFollowing, user]);
     return (
         <div>
             {user.id ? (
-                <div className="w-full flex flex-col items-center mt-16">
-                    <Loading isLoading={loading}>
+                <Loading isLoading={loading}>
+                    <div className="w-full h-screen flex flex-col items-center mt-16">
                         {arrFollowing?.map((following) => {
                             return <MainVideo fakeUser={following} />;
                         })}
-                    </Loading>
-                </div>
+                    </div>
+                </Loading>
             ) : (
                 <NoLogin />
             )}

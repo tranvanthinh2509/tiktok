@@ -38,9 +38,7 @@ function Following() {
 
     useEffect(() => {
         if (user.id) {
-            for (let i = 0; i < userFollowing.length; i++) {
-                mutationFolowingVideo.mutate({ id: userFollowing[i]._id });
-            }
+            userFollowing.map((userfollowing) => mutationFolowingVideo.mutate({ id: userfollowing._id }));
         }
     }, [userFollowing, user]);
     return (

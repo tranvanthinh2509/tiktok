@@ -2,7 +2,7 @@ import axios from 'axios';
 import { axiosJWT } from './UserService';
 
 export const getAllVideo = async (limit) => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/video/getAll?limit=${limit}`);
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/video/getAll`);
     return res.data;
 };
 
@@ -39,12 +39,15 @@ export const likeVideo = async (id, data) => {
     return res;
 };
 
-export const getFollowingVideo = async (id) => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/video/recent/${id}`);
+export const getFollowingVideo = async (data) => {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/video/recent`, data);
     return res.data;
 };
-export const getARecentVideo = async (id) => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/video/a_recent/${id}`);
-    console.log('res ', res);
+export const getARecentVideo = async (data) => {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/video/a_recent/`, data);
+    return res.data;
+};
+export const getVideoOfMe = async (id) => {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/video/videoOfMe/${id}`);
     return res.data;
 };

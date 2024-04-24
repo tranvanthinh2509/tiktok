@@ -16,7 +16,6 @@ function AccountFollow() {
             mutation.mutate({ id: user.id });
         }
     }, [user]);
-    console.log('oke', userFollowing);
     return (
         <div>
             <h1 className="text-[-16] font-semibold text-gray-500 mb-1">Các tài khoảng đang follow</h1>

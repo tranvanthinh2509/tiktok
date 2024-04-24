@@ -8,11 +8,10 @@ import Loading from '../../component/LoadingComponent/Loading';
 import NoLogin from '../../component/NoLogin/NoLogin';
 function Following() {
     const user = useSelector((state) => state.user);
-    const [following, setFollowing] = useState(user.id);
-    const [userFollowing, setUserFollowing] = useState([]);
+    const [userFollowing, setUserFollowing] = useState();
     const [loading, setLoading] = useState(true);
-    const videoFollowing = [];
     const [arrFollowing, setArrFollowing] = useState([]);
+
     const mutation = useMutationHooks(async (data) => {
         const { id } = data;
         const res = await UserService.followingUser(id);
@@ -22,23 +21,20 @@ function Following() {
         }
     });
     const mutationFolowingVideo = useMutationHooks(async (data) => {
-        const { id } = data;
-        const res = await VideoService.getFollowingVideo(id);
-        videoFollowing.push(...res.data);
-        setArrFollowing(videoFollowing);
+        const { userFollowing } = data;
+        const res = await VideoService.getFollowingVideo({ userFollowing });
         setLoading(false);
+        setArrFollowing(res.data);
     });
-
     useEffect(() => {
         if (user.id) {
             mutation.mutate({ id: user.id });
         }
-        setArrFollowing(arrFollowing);
     }, [user]);
 
     useEffect(() => {
-        if (user.id) {
-            userFollowing.map((userfollowing) => mutationFolowingVideo.mutate({ id: userfollowing._id }));
+        if (userFollowing) {
+            mutationFolowingVideo.mutate({ userFollowing });
         }
     }, [userFollowing, user]);
     return (

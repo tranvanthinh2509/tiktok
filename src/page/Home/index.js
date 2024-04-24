@@ -8,14 +8,12 @@ import { useState } from 'react';
 
 function Home() {
     const [loading, setLoading] = useState(true);
-    const [limit, setLimit] = useState(3);
     const fetchVideoAll = async (context) => {
-        const limit = context?.queryKey && context?.queryKey[1];
-        const res = await VideoService.getAllVideo(limit);
+        const res = await VideoService.getAllVideo();
         setLoading(false);
         return res;
     };
-    const { isPending, data: videos } = useQuery({ queryKey: ['videos', limit], queryFn: fetchVideoAll });
+    const { isPending, data: videos } = useQuery({ queryKey: ['videos'], queryFn: fetchVideoAll });
     return (
         <div>
             <Loading isLoading={isPending}>
@@ -23,9 +21,6 @@ function Home() {
                     {videos?.data?.map((video) => {
                         return <MainVideo fakeUser={video} />;
                     })}
-                    <Button outline big onClick={() => setLimit((pre) => pre + 2)}>
-                        More
-                    </Button>
                 </div>
             </Loading>
         </div>

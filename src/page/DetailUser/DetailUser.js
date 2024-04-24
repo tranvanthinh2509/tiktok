@@ -29,7 +29,7 @@ function DetailUser() {
     }, [id]);
     const mutation = useMutationHooks(async (data) => {
         const { id } = data;
-        const res = await VideoService.getFollowingVideo(id);
+        const res = await VideoService.getVideoOfMe(id);
         setVideoOfMe(res.data);
         setFollowed(user.followings.includes(userDetail._id));
         setLoading(false);

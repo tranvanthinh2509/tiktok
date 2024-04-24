@@ -41,7 +41,9 @@ function UserNotFollow({ fakeVideo }) {
                         />
                         <p className="text-[-18] font-bold text-white  cursor-pointer">{fakeVideo.userId.name}</p>
                         <h1 className="flex items-center mb-2 cursor-pointer">
-                            <span className="text-[-14] font-semibold text-white ">{fakeVideo.userId.nickName}</span>
+                            <span className="text-[-14] font-semibold text-white ">
+                                {fakeVideo.userId.nickName || fakeVideo.userId.name}
+                            </span>
                             {/* {fakeVideo.userId.tick} && */}
                             <FaCheckCircle fontSize="14px" color="rgb(32, 213, 236)" className="ml-1" />
                         </h1>

@@ -8,7 +8,7 @@ import NoLogin from '../../component/NoLogin/NoLogin';
 import Loading from '../../component/LoadingComponent/Loading';
 function Friends() {
     const user = useSelector((state) => state.user);
-    const [friends, setFriends] = useState([]);
+    const [friends, setFriends] = useState();
     const arrVideo = [];
     const [videoFriend, setVideoFriend] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -17,18 +17,13 @@ function Friends() {
         const res = await UserService.NotFollowingUser(id);
         setFriends(res.data);
     });
+    console.log('res', friends);
 
     const mutationVideoBG = useMutationHooks(async (data) => {
-        const { id } = data;
-        const res = await VideoService.getARecentVideo(id);
-
-        if (res.data !== null) {
-            arrVideo.push(res.data);
-            setVideoFriend(arrVideo);
-            setLoading(false);
-        } else {
-            setLoading(false);
-        }
+        const { friends } = data;
+        const res = await VideoService.getARecentVideo({ friends });
+        setLoading(false);
+        setVideoFriend(res.data);
     });
 
     useEffect(() => {
@@ -38,10 +33,9 @@ function Friends() {
     }, [user]);
 
     useEffect(() => {
-        if (user.id) {
-            for (let i = 0; i < friends.length; i++) {
-                mutationVideoBG.mutate({ id: friends[i]._id });
-            }
+        if (friends) {
+            console.log('1');
+            mutationVideoBG.mutate({ friends });
         }
     }, [friends, user]);
 

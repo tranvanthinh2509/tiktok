@@ -8,6 +8,7 @@ export const getAllVideo = async (limit) => {
 
 export const createVideo = async (data) => {
     const res = await axios.post(`${process.env.REACT_APP_API_URL}/video/create`, data);
+    console.log('data ', data);
     return res.data;
 };
 

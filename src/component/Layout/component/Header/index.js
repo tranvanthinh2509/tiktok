@@ -180,6 +180,9 @@ function Header() {
                         to={user.id && '/system/admin/upload'}
                         text
                         leftIcon={<FaPlus className="mr-2 w-5 h-5" fontSize="14px" color="#161823" />}
+                        onClick={() => {
+                            user.id || setLogin(true);
+                        }}
                     >
                         <p className="text-[-18]  font-semibold ">Tải lên</p>
                     </Button>

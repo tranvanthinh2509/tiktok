@@ -23,6 +23,8 @@ import { IoMdClose } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMutationHooks } from '../../hooks/useMutationHook';
+import Comments from '../../component/Comment/Comments';
+
 function Video() {
     const videoRef = useRef();
 
@@ -105,7 +107,7 @@ function Video() {
             <Loading isLoading={loading}>
                 <div className="w-full h-screen">
                     {videoDetail !== null ? (
-                        <div className="flex ">
+                        <div className="flex h-full overflow-hidden">
                             <div className="h-screen w-[-1375] flex justify-center  backdrop-sepia-0 bg-black relative">
                                 <video
                                     className="fixed  hover:cursor-pointer h-screen w-full object-cover  z-[0] opacity-30 "
@@ -175,27 +177,9 @@ function Video() {
                                     />
                                 </div>
                             </div>
-                            <div className="py-5 max-w-[-692] h-auto ml-6">
-                                <div className="flex items-center">
-                                    <HeadlessTippy
-                                        delay={[200, 200]}
-                                        placement="bottom-start"
-                                        interactive
-                                        render={(atr) => (
-                                            <div className="w-80 shadow-[-wrapper] rounded-[-8]" tabIndex="-1" {...atr}>
-                                                <Wrapper>
-                                                    <AccountItemInfo data={videoDetail} />
-                                                </Wrapper>
-                                            </div>
-                                        )}
-                                    >
-                                        <Image
-                                            className="w-10 h-10 object-cover rounded-[-50%] cursor-pointer"
-                                            src={videoDetail.userId.avatar}
-                                            alt="avatar"
-                                        />
-                                    </HeadlessTippy>
-                                    <div className="info w-80 ml-2">
+                            <div className="py-5 max-w-[-692] h-full ml-6 mr-4 ">
+                                <div className="h-auto bg-gray-100 py-4 px-4  rounded-2xl">
+                                    <div className="flex items-center">
                                         <HeadlessTippy
                                             delay={[200, 200]}
                                             placement="bottom-start"
@@ -212,66 +196,104 @@ function Video() {
                                                 </div>
                                             )}
                                         >
-                                            <div className="">
-                                                <h1 className="text-[-18] font-bold mr-1 leading-6 hover:underline hover:decoration-1 hover:cursor-pointer">
-                                                    {videoDetail.userId.name}
-                                                </h1>
-                                                <p className="text-[-16] leading-7">{videoDetail.userId.nickName}</p>
-                                            </div>
+                                            <Image
+                                                className="w-10 h-10 object-cover rounded-[-50%] cursor-pointer"
+                                                src={videoDetail.userId.avatar}
+                                                alt="avatar"
+                                            />
                                         </HeadlessTippy>
-                                    </div>
-                                    <div className="">
-                                        {followed ? (
-                                            <Button outline onClick={handleOnchangeUnFollow}>
-                                                Đang Follow
-                                            </Button>
-                                        ) : (
-                                            <Button noOutline onClick={handleOnchangeFollow}>
-                                                Follow
-                                            </Button>
-                                        )}
-                                    </div>
-                                </div>
-                                <div className="mt-2">
-                                    <h1 className="mr-1 text-[-16] font-semibold">{videoDetail.description} </h1>
-                                    <p className="text-blue-600 text-[-16] font-semibold">{videoDetail.tag}</p>
-                                </div>
-                                <div className="flex text-center h-6">
-                                    <span className=" mt-2">
-                                        <IoMusicalNotesSharp fontSize="14px" />
-                                    </span>
-                                    <p className="leading-6 text-[-16] ml-1">{videoDetail.music || 'Nhạc nền'}</p>
-                                </div>
-                                <div className="action flex mt-3">
-                                    <div className="flex items-center mr-3  ">
-                                        <div
-                                            className=" mr-1 px-2 py-2 rounded-[-50%] bg-slate-200"
-                                            onClick={handleOnchangeLike}
-                                        >
-                                            {liked ? (
-                                                <FaHeart fontSize="14px" color="rgb(254, 44, 85)" />
+                                        <div className="info w-80 ml-2">
+                                            <HeadlessTippy
+                                                delay={[200, 200]}
+                                                placement="bottom-start"
+                                                interactive
+                                                render={(atr) => (
+                                                    <div
+                                                        className="w-80 shadow-[-wrapper] rounded-[-8]"
+                                                        tabIndex="-1"
+                                                        {...atr}
+                                                    >
+                                                        <Wrapper>
+                                                            <AccountItemInfo data={videoDetail} />
+                                                        </Wrapper>
+                                                    </div>
+                                                )}
+                                            >
+                                                <div className="">
+                                                    <h1 className="text-[-18] font-bold mr-1 leading-6 hover:underline hover:decoration-1 hover:cursor-pointer">
+                                                        {videoDetail.userId.name}
+                                                    </h1>
+                                                    <p className="text-[-16] leading-7">
+                                                        {videoDetail.userId.nickName}
+                                                    </p>
+                                                </div>
+                                            </HeadlessTippy>
+                                        </div>
+                                        <div className="">
+                                            {followed ? (
+                                                <Button outline onClick={handleOnchangeUnFollow}>
+                                                    Đang Follow
+                                                </Button>
                                             ) : (
-                                                <FaHeart fontSize="14px" />
+                                                <Button noOutline onClick={handleOnchangeFollow}>
+                                                    Follow
+                                                </Button>
                                             )}
                                         </div>
+                                    </div>
+                                    <div className="mt-2">
+                                        <h1 className="mr-1 text-[-16] font-semibold">{videoDetail.description} </h1>
+                                        <p className="text-blue-600 text-[-16] font-semibold">{videoDetail.tag}</p>
+                                    </div>
+                                    <div className="flex text-center items-center h-6 mt-2">
+                                        <span className=" ">
+                                            <IoMusicalNotesSharp fontSize="14px" />
+                                        </span>
+                                        <p className="leading-6 text-[-14] ml-1">{videoDetail.music || 'Nhạc nền'}</p>
+                                    </div>
+                                </div>
+                                <div className="h-auto px-3 mt-5">
+                                    <div className="action flex">
+                                        <div className="flex items-center mr-6  ">
+                                            <div
+                                                className=" mr-1 px-2 py-2 rounded-[-50%] bg-slate-200"
+                                                onClick={handleOnchangeLike}
+                                            >
+                                                {liked ? (
+                                                    <FaHeart fontSize="14px" color="rgb(254, 44, 85)" />
+                                                ) : (
+                                                    <FaHeart fontSize="14px" />
+                                                )}
+                                            </div>
 
-                                        <p className="text-xs text-gray-500 font-bold">{likedLength || 0}</p>
-                                    </div>
-                                    <div className="flex items-center mr-3">
-                                        <div className=" mr-1 px-2 py-2 rounded-[-50%] bg-slate-200">
-                                            <AiFillMessage fontSize="14px" />
+                                            <p className="text-xs text-gray-500 font-bold">{likedLength || 0}</p>
                                         </div>
-                                        <p className="text-xs text-gray-500 font-bold">
-                                            {videoDetail.liked.length || '0'}
+                                        <div className="flex items-center mr-6">
+                                            <div className=" mr-1 px-2 py-2 rounded-[-50%] bg-slate-200">
+                                                <AiFillMessage fontSize="14px" />
+                                            </div>
+                                            <p className="text-xs text-gray-500 font-bold">
+                                                {videoDetail.liked.length || '0'}
+                                            </p>
+                                        </div>
+                                        <div className="flex items-center mr-6">
+                                            <div className=" mr-1 px-2 py-2 rounded-[-50%] bg-slate-200">
+                                                <HiBookmark fontSize="14px" />
+                                            </div>
+                                            <p className="text-xs text-gray-500 font-bold">
+                                                {videoDetail.liked.length || '0'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col h-full">
+                                    <div className="border-b border-b-gray-300">
+                                        <p className="mx-3 font-bold text-[-14] py-3 border-b-2 border-b-black w-1/2 ">
+                                            <span>Bình luận (0)</span>
                                         </p>
                                     </div>
-                                    <div className="flex items-center mr-3">
-                                        <div className=" mr-1 px-2 py-2 rounded-[-50%] bg-slate-200">
-                                            <HiBookmark fontSize="14px" />
-                                        </div>
-                                        <p className="text-xs text-gray-500 font-bold">
-                                            {videoDetail.liked.length || '0'}
-                                        </p>
+                                    <div className="h-full">
+                                        <Comments />
                                     </div>
                                 </div>
                             </div>

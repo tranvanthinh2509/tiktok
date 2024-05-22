@@ -245,7 +245,7 @@ function MainVideo({ fakeUser }) {
                             <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
                                 <AiFillMessage fontSize="24px" />
                             </div>
-                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.comment || 0}</p>
+                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.comment.lenght || 0}</p>
                         </div>
                         <div className="flex-col-reverse text-center">
                             <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">

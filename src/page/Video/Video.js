@@ -107,7 +107,7 @@ function Video() {
             <Loading isLoading={loading}>
                 <div className="w-full h-screen">
                     {videoDetail !== null ? (
-                        <div className="flex h-full overflow-hidden">
+                        <div className="flex h-full ">
                             <div className="h-screen w-[-1375] flex justify-center  backdrop-sepia-0 bg-black relative">
                                 <video
                                     className="fixed  hover:cursor-pointer h-screen w-full object-cover  z-[0] opacity-30 "
@@ -177,8 +177,8 @@ function Video() {
                                     />
                                 </div>
                             </div>
-                            <div className="py-5 max-w-[-692] h-full ml-6 mr-4 ">
-                                <div className="h-auto bg-gray-100 py-4 px-4  rounded-2xl">
+                            <div className="py-5 max-w-[-505] h-full ml-6 mr-4 overflow-hidden overflow-y-scroll scrollbar-thin">
+                                <div className="h-auto bg-gray-100 py-4 px-4   rounded-2xl">
                                     <div className="flex items-center">
                                         <HeadlessTippy
                                             delay={[200, 200]}
@@ -241,9 +241,11 @@ function Video() {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="mt-2">
+                                    <div className="mt-2 max-w-[-505]">
                                         <h1 className="mr-1 text-[-16] font-semibold">{videoDetail.description} </h1>
-                                        <p className="text-blue-600 text-[-16] font-semibold">{videoDetail.tag}</p>
+                                        <p className=" text-blue-600 text-[-16] w-[-500] font-semibold mr-1 ">
+                                            {videoDetail.tag}
+                                        </p>
                                     </div>
                                     <div className="flex text-center items-center h-6 mt-2">
                                         <span className=" ">
@@ -292,8 +294,8 @@ function Video() {
                                             <span>Bình luận (0)</span>
                                         </p>
                                     </div>
-                                    <div className="h-full">
-                                        <Comments />
+                                    <div className="h-full ">
+                                        <Comments videoId={id} />
                                     </div>
                                 </div>
                             </div>

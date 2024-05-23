@@ -25,9 +25,13 @@ module.exports = {
                 '[-1375]': '1375px',
                 '[-700]': '700px',
                 '[-280]': '266px',
+                '[-505]': '505px',
+                '[-400]': '400px',
             },
             maxWidth: {
                 '[-692]': '692px',
+                '[-400]': '400px',
+                '[-505]': '505px',
             },
             borderColor: {
                 '[-gray]': 'rgb(229 229 229)',
@@ -69,5 +73,5 @@ module.exports = {
             },
         },
     },
-    plugins: [],
+    plugins: [require('tailwind-scrollbar')],
 };

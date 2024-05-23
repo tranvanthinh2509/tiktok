@@ -17,6 +17,7 @@ function Button({
     small,
     big,
     bigbig,
+    none,
     ...passProp
 }) {
     let Comp = 'button';
@@ -68,6 +69,9 @@ function Button({
         hoverButton = classNames('hover:bg-[-button-text] mr-2 disabled:opacity-25 min-w-40 min-h-12');
     }
 
+    if (none) {
+        hoverButton = classNames('border-none text-color font-semibold disabled:opacity-35 ');
+    }
     let button = classNames(
         'button-comp min-w-[w-100] rounded border border-solid border-[-gray-button] h-9 flex items-center justify-center px-2',
         hoverButton,

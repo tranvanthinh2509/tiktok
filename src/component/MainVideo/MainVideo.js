@@ -35,6 +35,7 @@ function MainVideo({ fakeUser }) {
         setLiked(fakeUser.liked.includes(`${user.id}`));
     }, [user]);
     const [likedLength, setLikedLength] = useState(fakeUser?.liked.length);
+    const [commentLength, setcommentLength] = useState(fakeUser?.comment.length);
     const mutation = useMutationHooks((data) => {
         const { id, userId } = data;
         UserService.followUser(id, { userId: userId });
@@ -85,6 +86,7 @@ function MainVideo({ fakeUser }) {
             navigate(`/user/${id}`);
         }
     };
+
     return (
         <div index="1" className="flex py-5 max-w-[-692] justify-between h-auto ">
             <HeadlessTippy
@@ -245,7 +247,7 @@ function MainVideo({ fakeUser }) {
                             <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
                                 <AiFillMessage fontSize="24px" />
                             </div>
-                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.comment.lenght || 0}</p>
+                            <p className="text-xs text-gray-500 font-bold">{commentLength}</p>
                         </div>
                         <div className="flex-col-reverse text-center">
                             <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">

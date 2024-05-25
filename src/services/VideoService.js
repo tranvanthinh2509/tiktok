@@ -52,3 +52,8 @@ export const getVideoOfMe = async (id) => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/video/videoOfMe/${id}`);
     return res.data;
 };
+
+export const addCmt = async (id, type, idCmt) => {
+    const res = await axios.put(`${process.env.REACT_APP_API_URL}/video/comment?id=${id}&type=${type}&idCmt=${idCmt}`);
+    return res;
+};

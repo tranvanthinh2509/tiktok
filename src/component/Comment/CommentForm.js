@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Button from '../Layout/component/Button/Button';
 
-function CommentForm({ submitLabel, handleSubmit }) {
-    const [text, setText] = useState('');
+function CommentForm({ submitLabel, handleSubmit, hasCancelButton = false, initialText = '', handleCancel }) {
+    const [text, setText] = useState(initialText);
 
     const onChangText = (e) => {
         setText(e.target.value);
@@ -15,16 +15,23 @@ function CommentForm({ submitLabel, handleSubmit }) {
                 value={text}
                 onChange={(e) => onChangText(e)}
             />
-            <Button
-                none
-                disabled={text.length === 0}
-                onClick={() => {
-                    handleSubmit(text);
-                    setText('');
-                }}
-            >
-                {submitLabel}
-            </Button>
+            <div>
+                <Button
+                    none
+                    disabled={text.length === 0}
+                    onClick={() => {
+                        handleSubmit(text);
+                        setText('');
+                    }}
+                >
+                    {submitLabel}
+                </Button>
+                {hasCancelButton && (
+                    <Button none disabled={text.length === 0} onClick={handleCancel}>
+                        Cancel
+                    </Button>
+                )}
+            </div>
         </div>
     );
 }

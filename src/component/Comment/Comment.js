@@ -1,8 +1,18 @@
 import { useSelector } from 'react-redux';
 import Image from '../Image/Image';
 import CommentForm from './CommentForm';
+import { convertTime } from '../ConvertTime/ConvertTime';
 
-function Comment({ comment, replies, handleDelete, activeComment, setActiveComment, addComment, parentId = null }) {
+function Comment({
+    comment,
+    replies,
+    handleDelete,
+    activeComment,
+    setActiveComment,
+    addComment,
+    updateComment,
+    parentId = null,
+}) {
     const user = useSelector((state) => state.user);
     const canReply = Boolean(comment.userId._id);
     const canEdit = Boolean(comment.userId._id);
@@ -31,10 +41,19 @@ function Comment({ comment, replies, handleDelete, activeComment, setActiveComme
                             <div>
                                 <div className="px-2 py-1 bg-gray-100 rounded-lg ">
                                     <p className="text-[-14] font-semibold">{comment.userId.name}</p>
-                                    <p className="h-auto ">{comment.content}</p>
+                                    {!isEdit && <p className="h-auto max-w-80">{comment.content}</p>}
+                                    {isEdit && (
+                                        <CommentForm
+                                            submitLabel="Edit"
+                                            hasCancelButton
+                                            initialText={comment.content}
+                                            handleSubmit={(text) => updateComment(text, comment._id)}
+                                            handleCancel={() => setActiveComment(null)}
+                                        />
+                                    )}
                                 </div>
                                 <div className="flex text-[-14] font-semibold text-gray-500">
-                                    <div className="min-w-14 cursor-pointer">25-05</div>
+                                    <div className="min-w-14 cursor-pointer">{convertTime(`${comment.createdAt}`)}</div>
                                     {canReply && (
                                         <div
                                             className="min-w-14 cursor-pointer"
@@ -67,7 +86,6 @@ function Comment({ comment, replies, handleDelete, activeComment, setActiveComme
                                     />
                                 )}
                             </div>
-                            <div className="ml-3">oke</div>
                         </div>
                         {replies.length > 0 && (
                             <div className="">
@@ -79,6 +97,7 @@ function Comment({ comment, replies, handleDelete, activeComment, setActiveComme
                                         activeComment={activeComment}
                                         setActiveComment={setActiveComment}
                                         addComment={addComment}
+                                        updateComment={updateComment}
                                         parentId={comment._id}
                                     />
                                 ))}

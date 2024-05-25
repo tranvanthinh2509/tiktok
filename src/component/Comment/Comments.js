@@ -3,7 +3,9 @@ import CommentForm from './CommentForm';
 import { useMutationHooks } from '../../hooks/useMutationHook';
 import { useEffect, useState } from 'react';
 import * as CommentService from '../../services/CommentService';
+import * as VideoService from '../../services/VideoService';
 import { useSelector } from 'react-redux';
+import { type } from '@testing-library/user-event/dist/type';
 
 function Comments({ videoId, lengthComment }) {
     const user = useSelector((state) => state.user);
@@ -24,18 +26,49 @@ function Comments({ videoId, lengthComment }) {
         const { userId, videoId, content, parentId = null } = data;
         const res = await CommentService.createComment({ userId, videoId, content, parentId });
         setComments([res.data, ...comments]);
+        console.log('123 ', res.data._id);
+        await mutationAddCmt.mutate({ id: videoId, type: 'push', idCmt: res.data._id });
     });
 
     const mutationDeleteComment = useMutationHooks(async (id) => {
         await CommentService.deleteComment(id);
     });
+
+    const mutationUpdateComment = useMutationHooks(async (data) => {
+        const { id, text } = data;
+        const res = await CommentService.updateComment(id, text);
+        return res.data;
+    });
+
+    const mutationAddCmt = useMutationHooks(async (data) => {
+        const { id, type, idCmt } = data;
+        const res = await VideoService.addCmt(id, type, idCmt);
+        return res;
+    });
     const addComment = (text, parentId) => {
-        console.log('adđComment ', text, parentId);
-        mutationCreateComment.mutate({ userId: user.id, videoId: videoId, content: text, parentId: parentId });
+        const res = mutationCreateComment.mutate({
+            userId: user.id,
+            videoId: videoId,
+            content: text,
+            parentId: parentId,
+        });
+        //
+    };
+    const updateComment = (text, commentId) => {
+        mutationUpdateComment.mutate({ id: commentId, text: text });
+        const updateComments = comments.map((comment) => {
+            if (comment._id === commentId) {
+                return { ...comment, content: text };
+            }
+            return comment;
+        });
+        setComments(updateComments);
+        setActiveComment(null);
     };
 
     const deleteComment = (commentId) => {
         mutationDeleteComment.mutate(commentId);
+        mutationAddCmt.mutate({ id: videoId, type: 'pull', idCmt: commentId });
         const updateComments = comments.filter((comment) => comment._id !== commentId);
         setComments(updateComments);
     };
@@ -56,6 +89,7 @@ function Comments({ videoId, lengthComment }) {
                         handleDelete={deleteComment}
                         activeComment={activeComment}
                         setActiveComment={setActiveComment}
+                        updateComment={updateComment}
                         addComment={addComment}
                     />
                 ))}

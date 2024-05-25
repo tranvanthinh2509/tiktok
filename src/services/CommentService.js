@@ -9,3 +9,8 @@ export const createComment = async (data) => {
     const res = await axios.post(`${process.env.REACT_APP_API_URL}/comment/create`, data);
     return res.data;
 };
+
+export const deleteComment = async (id) => {
+    const res = await axios.delete(`${process.env.REACT_APP_API_URL}/comment/deleteComment/${id}`);
+    return res.data;
+};

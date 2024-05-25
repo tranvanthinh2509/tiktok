@@ -15,7 +15,14 @@ function CommentForm({ submitLabel, handleSubmit }) {
                 value={text}
                 onChange={(e) => onChangText(e)}
             />
-            <Button none disabled={text.length === 0} onClick={() => handleSubmit(text)}>
+            <Button
+                none
+                disabled={text.length === 0}
+                onClick={() => {
+                    handleSubmit(text);
+                    setText('');
+                }}
+            >
                 {submitLabel}
             </Button>
         </div>

@@ -35,6 +35,7 @@ function Video() {
     const { id } = useParams();
     const [videoDetail, setVideoDetail] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [lengthCmt, setLengthCmt] = useState(0);
     const navigate = useNavigate();
     const fetchDetailVideo = async (id) => {
         const res = await VideoService.getDetailVideo(id);
@@ -102,6 +103,9 @@ function Video() {
         }
     };
 
+    const getLegnthComment = (length) => {
+        setLengthCmt(length);
+    };
     return (
         <div>
             <Loading isLoading={loading}>
@@ -274,9 +278,7 @@ function Video() {
                                             <div className=" mr-1 px-2 py-2 rounded-[-50%] bg-slate-200">
                                                 <AiFillMessage fontSize="14px" />
                                             </div>
-                                            <p className="text-xs text-gray-500 font-bold">
-                                                {videoDetail.liked.length || '0'}
-                                            </p>
+                                            <p className="text-xs text-gray-500 font-bold">{lengthCmt}</p>
                                         </div>
                                         <div className="flex items-center mr-6">
                                             <div className=" mr-1 px-2 py-2 rounded-[-50%] bg-slate-200">
@@ -291,11 +293,11 @@ function Video() {
                                 <div className="flex flex-col h-full">
                                     <div className="border-b border-b-gray-300">
                                         <p className="mx-3 font-bold text-[-14] py-3 border-b-2 border-b-black w-1/2 ">
-                                            <span>Bình luận (0)</span>
+                                            <span>{`Bình luận (${lengthCmt})`}</span>
                                         </p>
                                     </div>
                                     <div className="h-full ">
-                                        <Comments videoId={id} />
+                                        <Comments videoId={id} lengthComment={getLegnthComment} />
                                     </div>
                                 </div>
                             </div>

@@ -1,5 +1,6 @@
 import images from '../../asset/image/index';
 import Image from '../../component/Image/Image';
+import axios from 'axios';
 
 import 'tippy.js/dist/tippy.css';
 import Menu from '../../component/Popper/Menu/Menu';
@@ -59,17 +60,30 @@ function SystemAdminUpload() {
         const base64 = await getBase64(file);
         setImageBg(base64.toString());
     };
-    const handleVideo = async (fileList) => {
-        const file = fileList[0];
 
-        const base64 = await getBase64(file);
-        setVideo(base64.toString());
-    };
+    //base64
+    // const handleVideo = async (fileList) => {
+    //     const file = fileList[0];
+
+    //     const base64 = await getBase64(file);
+    //     setVideo(base64.toString());
+    // };
     const handleUpLoadVideo = () => {
         console.log('stateVideo ', stateVideo);
         mutation.mutate(stateVideo);
     };
 
+    const handleFile = (event) => {
+        const file = event.target.files[0];
+        const fomrData = new FormData();
+        fomrData.append('file', file);
+        fomrData.append('upload_preset', 'uploadVideo');
+
+        axios
+            .post(`https://api.cloudinary.com/v1_1/dzcgxdbbw/video/upload`, fomrData)
+            .then((res) => setVideo(res.data.url))
+            .catch((err) => console.log(err));
+    };
     const User_MENU = [
         {
             icon: <Profile />,
@@ -235,6 +249,29 @@ function SystemAdminUpload() {
                                     </div>
                                 </div>
 
+                                {/* <div className="ml-12 flex flex-col items-center">
+                                    <Button text>Video</Button>
+                                    <div className="   w-72 h-[-600] my-4">
+                                        <div className="bg-[bg-phone] w-72 h-[-600] bg-cover relative">
+                                            <video
+                                                muted
+                                                controls
+                                                className="absolute top-3 left-3 hover:cursor-pointer w-[-280] h-[-542] object-cover rounded-3xl"
+                                                loop
+                                                src={video}
+                                            >
+                                               
+                                            </video>
+                                        </div>
+                                    </div>
+                                    <input
+                                        type="file"
+                                        className="px-2 py-2 border border-gray-300"
+                                        accept=".mp4 "
+                                        onChange={(e) => handleVideo(e.target.files)}
+                                    />
+                                    
+                                </div> */}
                                 <div className="ml-12 flex flex-col items-center">
                                     <Button text>Video</Button>
                                     <div className="   w-72 h-[-600] my-4">
@@ -254,7 +291,7 @@ function SystemAdminUpload() {
                                         type="file"
                                         className="px-2 py-2 border border-gray-300"
                                         accept=".mp4 "
-                                        onChange={(e) => handleVideo(e.target.files)}
+                                        onChange={(e) => handleFile(e)}
                                     />
                                 </div>
                             </div>
@@ -263,7 +300,7 @@ function SystemAdminUpload() {
                                 <Button text big>
                                     <Link to="/">Hủy bỏ</Link>
                                 </Button>
-                                <Button primary big onClick={handleUpLoadVideo}>
+                                <Button primary big onClick={handleUpLoadVideo} disabled={video === ''}>
                                     Đăng
                                 </Button>
                             </div>

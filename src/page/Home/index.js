@@ -14,6 +14,7 @@ function Home() {
         return res;
     };
     const { isPending, data: videos } = useQuery({ queryKey: ['videos'], queryFn: fetchVideoAll });
+
     return (
         <div>
             <Loading isLoading={isPending}>

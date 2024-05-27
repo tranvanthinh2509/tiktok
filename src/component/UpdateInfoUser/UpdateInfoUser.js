@@ -10,6 +10,7 @@ import { updateUser } from '../../redux/slides/userSlide';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../LoadingComponent/Loading';
 import { getBase64 } from '../../utils';
+import axios from 'axios';
 function UpdateInfoUser({ onClick }) {
     const user = useSelector((state) => state.user);
 
@@ -63,8 +64,18 @@ function UpdateInfoUser({ onClick }) {
 
     const handleOnChangeAvatar = async (fileList) => {
         const file = fileList[0];
-        const base64 = await getBase64(file);
-        setAvatar(base64.toString());
+
+        // const base64 = await getBase64(file);
+        // setAvatar(base64.toString());
+
+        const fomrData = new FormData();
+        fomrData.append('file', file);
+        fomrData.append('upload_preset', 'uploadVideo');
+
+        axios
+            .post(`https://api.cloudinary.com/v1_1/dzcgxdbbw/image/upload`, fomrData)
+            .then((res) => setAvatar(res.data.url))
+            .catch((err) => console.log(err));
     };
     const handleSave = () => {
         mutation.mutate({ id: user?.id, name, nickName, story, avatar, access_token: user?.access_token });

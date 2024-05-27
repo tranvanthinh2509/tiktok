@@ -6,7 +6,6 @@ import { useMutationHooks } from '../../hooks/useMutationHook';
 import * as message from '../Message/Message';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../../component/LoadingComponent/Loading';
-import { Link } from 'react-router-dom';
 function UpdateInfoVideo({ onClick, dataVideo }) {
     const user = useSelector((state) => state.user);
     const [isLoadingUpdate, setIsLoadingUpdate] = useState(true);
@@ -32,17 +31,11 @@ function UpdateInfoVideo({ onClick, dataVideo }) {
             console.log('123');
             message.success();
             handleClose();
-            // handdleGetDetailsUser(user?.id, user?.access_token);
-            // onClick();
         } else if (isError) {
             message.error();
         }
     }, [isSuccess]);
 
-    // const handdleGetDetailsUser = async (id, token) => {
-    //     const res = await UserService.getDetailUser(id, token);
-    //     dispatch(updateUser({ ...res?.data, access_token: token }));
-    // };
     const handleOnChangeDescription = (e) => {
         setDesciption(e.target.value);
     };

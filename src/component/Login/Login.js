@@ -37,7 +37,7 @@ function Login({ onClick }) {
                     </div>
                 </div>
 
-                {handleLogin ? <SignIn /> : <SignUp />}
+                {handleLogin ? <SignIn handleClickLogin={onClick} /> : <SignUp />}
             </div>
         </div>
     );

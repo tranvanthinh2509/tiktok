@@ -11,7 +11,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import { updateUser } from '../../redux/slides/userSlide';
 
-function SignIn() {
+function SignIn({ handleClickLogin }) {
     const mutation = useMutationHooks((data) => UserService.loginUser(data));
     const [isShowPassword, setIsShowPassword] = useState(false);
     const [email, setEmail] = useState('');
@@ -23,8 +23,6 @@ function SignIn() {
     const { data, isPending, isSuccess, isError } = mutation;
     useEffect(() => {
         if (isSuccess) {
-            // navigate('/');
-            window.location = 'http://localhost:3000/';
             localStorage.setItem('access_token', JSON.stringify(data?.access_token));
             if (data?.access_token) {
                 const decoded = jwtDecode(data?.access_token);
@@ -33,8 +31,11 @@ function SignIn() {
                     handleGetDetailUser(decoded?.id, data?.access_token);
                 }
             }
+            if (data?.status === 'OK') {
+                handleClickLogin();
+            }
         }
-    }, [isSuccess]);
+    }, [isSuccess, isError]);
 
     const handleGetDetailUser = async (id, token) => {
         const res = await UserService.getDetailUser(id, token);

@@ -15,6 +15,7 @@ function App() {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const user = useSelector((state) => state.user);
+
     useEffect(() => {
         const { storageData, decoded } = handleDecoded();
 
@@ -24,8 +25,13 @@ function App() {
     }, []);
 
     const handleGetDetailUser = async (id, token) => {
-        const res = await UserService.getDetailUser(id, token);
-        dispatch(updateUser({ ...res?.data, access_token: token }));
+        console.log('token ', token);
+        try {
+            const res = await UserService.getDetailUser(id, token);
+            dispatch(updateUser({ ...res?.data, access_token: token }));
+        } catch {
+            localStorage.removeItem('access_token');
+        }
     };
 
     const handleDecoded = () => {
@@ -44,6 +50,7 @@ function App() {
             const { storageData, decoded } = handleDecoded();
             if (decoded?.exp < currentTime.getTime() / 1000) {
                 const data = await UserService.refreshToken();
+                console.log('data ', data);
                 config.headers['token'] = `Bearer ${data?.access_token}`;
             }
             return config;

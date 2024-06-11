@@ -29,7 +29,7 @@ function Search() {
         //         setLoading(false);
         //     });
 
-        fetch(`http://localhost:3001/api/user/search?filter=name&filter=${encodeURIComponent(searchInput)}`)
+        fetch(`${process.env.REACT_APP_API_URL}/user/search?filter=name&filter=${encodeURIComponent(searchInput)}`)
             .then((res) => res.json())
             .then((res) => {
                 setSearchResult(res.data);

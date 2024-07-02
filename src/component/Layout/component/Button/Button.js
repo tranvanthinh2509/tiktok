@@ -39,7 +39,7 @@ function Button({
     let hoverButton;
 
     if (text) {
-        hoverButton = classNames('hover:bg-[-button-text] mr-2 disabled:opacity-25 px-2');
+        hoverButton = classNames('hover:text-red-500 mr-2 disabled:opacity-25 px-2');
     }
     if (primary) {
         hoverButton = classNames('bg-[-button-primary] border-none text-white hover:opacity-90 mr-2');
@@ -58,6 +58,9 @@ function Button({
         hoverButton = classNames(
             'bg-red-600 text-white font-semibold mr-0 w-32 hover:opacity-90 disabled:bg-gray-600 min-w-40 min-h-12',
         );
+    }
+    if (outline && big) {
+        hoverButton = classNames('border-red-500 text-red-500 mr-0 w-28 ');
     }
     if (primary && bigbig) {
         hoverButton = classNames(

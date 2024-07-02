@@ -26,24 +26,29 @@ function MainVideo({ fakeUser }) {
     const [play, setPlay] = useState(false);
     const [hoverVideo, setHoverVideo] = useState(false);
     const [showVolume, setShowVolume] = useState(true);
-    const [followed, setFollowed] = useState(false);
+    // const [followed, setFollowed] = useState(false);
     const [liked, setLiked] = useState(false);
 
     useEffect(() => {
-        setFollowed(user.followings.includes(`${fakeUser.userId._id}`));
-
+        // setFollowed(user.followings.includes(`${fakeUser.userId._id}`));
         setLiked(fakeUser.liked.includes(`${user.id}`));
-    }, [user]);
+    }, [user, fakeUser]);
     const [likedLength, setLikedLength] = useState(fakeUser?.liked.length);
     const [commentLength, setcommentLength] = useState(fakeUser?.comment.length);
-    const mutation = useMutationHooks((data) => {
-        const { id, userId } = data;
-        UserService.followUser(id, { userId: userId });
-    });
-    const mutation1 = useMutationHooks((data) => {
-        const { id, userId } = data;
-        UserService.unfollowUser(id, { userId: userId });
-    });
+    useEffect(() => {
+        setLikedLength(fakeUser?.liked.length);
+        setcommentLength(fakeUser?.comment.length);
+    }, [fakeUser]);
+
+    // Cannel funtion follow
+    // const mutation = useMutationHooks((data) => {
+    //     const { id, userId } = data;
+    //     UserService.followUser(id, { userId: userId });
+    // });
+    // const mutation1 = useMutationHooks((data) => {
+    //     const { id, userId } = data;
+    //     UserService.unfollowUser(id, { userId: userId });
+    // });
     const mutationLike = useMutationHooks((data) => {
         const { id, userId } = data;
         VideoService.likeVideo(id, { userId: userId });
@@ -56,18 +61,20 @@ function MainVideo({ fakeUser }) {
             setLikedLength(!liked ? likedLength + 1 : likedLength - 1);
         }
     };
-    const handleOnchangeFollow = () => {
-        if (user.id) {
-            mutation.mutate({ id: fakeUser.userId._id, userId: user.id });
-            setFollowed(!followed);
-        }
-    };
-    const handleOnchangeUnFollow = () => {
-        if (user.id) {
-            mutation1.mutate({ id: fakeUser.userId._id, userId: user.id });
-            setFollowed(!followed);
-        }
-    };
+
+    // Cannel funtion follow
+    // const handleOnchangeFollow = () => {
+    //     if (user.id) {
+    //         mutation.mutate({ id: fakeUser.userId._id, userId: user.id });
+    //         setFollowed(!followed);
+    //     }
+    // };
+    // const handleOnchangeUnFollow = () => {
+    //     if (user.id) {
+    //         mutation1.mutate({ id: fakeUser.userId._id, userId: user.id });
+    //         setFollowed(!followed);
+    //     }
+    // };
     const navigate = useNavigate();
     const handlePlay = () => {
         if (play) {
@@ -149,7 +156,7 @@ function MainVideo({ fakeUser }) {
                         </div>
                     </div>
                     <div className="w-28">
-                        {fakeUser.userId._id === user.id || (
+                        {/* {fakeUser.userId._id === user.id || (
                             <div>
                                 {' '}
                                 {followed ? (
@@ -162,7 +169,7 @@ function MainVideo({ fakeUser }) {
                                     </Button>
                                 )}
                             </div>
-                        )}
+                        )} */}
                     </div>
                 </div>
                 <div className="h-[-700] flex ">

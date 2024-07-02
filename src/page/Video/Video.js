@@ -21,12 +21,14 @@ import Image from '../../component/Image/Image';
 import Loading from '../../component/LoadingComponent/Loading';
 import { IoMdClose } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useMutationHooks } from '../../hooks/useMutationHook';
 import Comments from '../../component/Comment/Comments';
+import { updateUser } from '../../redux/slides/userSlide';
 
 function Video() {
     const videoRef = useRef();
+    const dispatch = useDispatch();
 
     const user = useSelector((state) => state.user);
     const [play, setPlay] = useState(false);
@@ -68,7 +70,7 @@ function Video() {
             setLikedLength(videoDetail.liked.length);
             setLoading(false);
         }
-    }, [videoDetail]);
+    }, [videoDetail, user]);
 
     const mutation = useMutationHooks((data) => {
         const { id, userId } = data;
@@ -94,17 +96,24 @@ function Video() {
         if (user.id) {
             mutation.mutate({ id: videoDetail.userId._id, userId: user.id });
             setFollowed(!followed);
+            handleGetDetailUser(user.id, user.access_token);
         }
     };
     const handleOnchangeUnFollow = () => {
         if (user.id) {
             mutation1.mutate({ id: videoDetail.userId._id, userId: user.id });
             setFollowed(!followed);
+            handleGetDetailUser(user.id, user.access_token);
         }
     };
 
     const getLegnthComment = (length) => {
         setLengthCmt(length);
+    };
+
+    const handleGetDetailUser = async (id, token) => {
+        const res = await UserService.getDetailUser(id, token);
+        await dispatch(updateUser({ ...res?.data, access_token: token }));
     };
     return (
         <div>
@@ -235,7 +244,7 @@ function Video() {
                                         </div>
                                         <div className="">
                                             {followed ? (
-                                                <Button outline onClick={handleOnchangeUnFollow}>
+                                                <Button big outline onClick={handleOnchangeUnFollow}>
                                                     Đang Follow
                                                 </Button>
                                             ) : (

@@ -1,7 +1,7 @@
 import Button from '../../component/Layout/component/Button/Button';
 import { PiLockKeyFill } from 'react-icons/pi';
 import ProfileVideo from '../../component/ProfileVideo/ProfileVideo';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Image from '../../component/Image/Image';
 import { useEffect, useState } from 'react';
 import * as VideoService from '../../services/VideoService';
@@ -9,6 +9,7 @@ import * as UserService from '../../services/UserService';
 import { useMutationHooks } from '../../hooks/useMutationHook';
 import { useParams } from 'react-router-dom';
 import Loading from '../../component/LoadingComponent/Loading';
+import { updateUser } from '../../redux/slides/userSlide';
 function DetailUser() {
     const user = useSelector((state) => state.user);
     const [videoOfMe, setVideoOfMe] = useState([]);
@@ -23,6 +24,8 @@ function DetailUser() {
         const res = await UserService.getOnelUser(id);
         setUserDetail(res.data);
     });
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         mutationOneUser.mutate({ id: id });
@@ -47,6 +50,7 @@ function DetailUser() {
         if (user.id) {
             mutationFollow.mutate({ id: userDetail._id, userId: user.id });
             setFollowed(!followed);
+            handleGetDetailUser(user.id, user.access_token);
         }
     };
 
@@ -54,7 +58,13 @@ function DetailUser() {
         if (user.id) {
             mutationUnFollow.mutate({ id: userDetail._id, userId: user.id });
             setFollowed(!followed);
+            handleGetDetailUser(user.id, user.access_token);
         }
+    };
+
+    const handleGetDetailUser = async (id, token) => {
+        const res = await UserService.getDetailUser(id, token);
+        await dispatch(updateUser({ ...res?.data, access_token: token }));
     };
     useEffect(() => {
         if (user) {

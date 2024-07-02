@@ -176,6 +176,11 @@ function Header() {
                 <Search />
 
                 <div className="actor flex items-center">
+                    {user.isAdmin === true && (
+                        <Button to={user.id && '/manager/user'} text>
+                            <p className="text-[-18]  font-semibold ">Quản lí</p>
+                        </Button>
+                    )}
                     <Button
                         to={user.id && '/system/admin/upload'}
                         text

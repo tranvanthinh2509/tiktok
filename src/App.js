@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { publicRoutes } from './routes';
+import { publicRoutes, privateRoutes } from './routes';
 import { DefaultLayout, HeaderOnly } from './component/Layout';
 import { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
@@ -11,6 +11,7 @@ import * as UserService from './services/UserService';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from './redux/slides/userSlide';
 import Loading from './component/LoadingComponent/Loading';
+import ManagerLayout from './component/Layout/ManagerLayout';
 function App() {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +37,7 @@ function App() {
 
     const handleDecoded = () => {
         let storageData = localStorage.getItem('access_token');
+
         let decoded;
         if (storageData && isJsonString(storageData)) {
             storageData = JSON.parse(storageData);
@@ -50,7 +52,8 @@ function App() {
             const { storageData, decoded } = handleDecoded();
             if (decoded?.exp < currentTime.getTime() / 1000) {
                 const data = await UserService.refreshToken();
-                console.log('data ', data);
+
+                // localStorage.setItem('access_token', JSON.stringify(data?.access_token));
                 config.headers['token'] = `Bearer ${data?.access_token}`;
             }
             return config;
@@ -80,6 +83,27 @@ function App() {
                                     <Route
                                         key={index}
                                         path={{ isCheckAuth } && route.path}
+                                        element={
+                                            <Layout>
+                                                <Page />
+                                            </Layout>
+                                        }
+                                    />
+                                );
+                            })}
+                            {privateRoutes.map((route, index) => {
+                                const Page = route.component;
+                                let Layout = ManagerLayout;
+
+                                if (route.layout) {
+                                    Layout = HeaderOnly;
+                                } else if (route.layout === null) {
+                                    Layout = Fragment;
+                                }
+                                return (
+                                    <Route
+                                        key={index}
+                                        path={route.path}
                                         element={
                                             <Layout>
                                                 <Page />

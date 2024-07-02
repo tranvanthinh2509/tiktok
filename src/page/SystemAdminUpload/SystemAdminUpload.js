@@ -6,7 +6,7 @@ import 'tippy.js/dist/tippy.css';
 import Menu from '../../component/Popper/Menu/Menu';
 import { Profile, Logout, Following } from '../../component/Icons';
 import { useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { AiFillPicture } from 'react-icons/ai';
 import Button from '../../component/Layout/component/Button/Button';
 import { useEffect, useState } from 'react';
@@ -23,6 +23,8 @@ function SystemAdminUpload() {
     const [imageBg, setImageBg] = useState('');
     const [video, setVideo] = useState('');
     const userId = user?.id;
+
+    const navigate = useNavigate();
 
     const stateVideo = {
         description,
@@ -95,34 +97,41 @@ function SystemAdminUpload() {
         },
     ];
 
-    const action = [
-        {
-            icon: <Following />,
-            title: 'Trang chủ',
-            to: '/',
-        },
-        {
-            icon: <Following />,
-            title: 'Bài đăng',
-            to: '/system/admin',
-        },
-        {
-            icon: <Following />,
-            title: 'Phân tích',
-            to: '/3',
-        },
-        {
-            icon: <Following />,
-            title: 'Phản hồi',
-            to: '/4',
-        },
-    ];
+    // const action = [
+    //     {
+    //         icon: <Following />,
+    //         title: 'Trang chủ',
+    //         to: '/',
+    //     },
+    //     {
+    //         icon: <Following />,
+    //         title: 'Bài đăng',
+    //         to: '/system/admin',
+    //     },
+    //     {
+    //         icon: <Following />,
+    //         title: 'Phân tích',
+    //         to: '/3',
+    //     },
+    //     {
+    //         icon: <Following />,
+    //         title: 'Phản hồi',
+    //         to: '/4',
+    //     },
+    // ];
 
     return (
         <div>
             <div className="header fixed w-full z-20 pl-5 pr-16 h-16 border-b border-b-gray flex items-center justify-between bg-white">
                 <div className="flex items-center ">
-                    <img className="logo" src={images.logo.default} alt="tik-tok" />
+                    <img
+                        className="logo"
+                        src={images.logo.default}
+                        alt="tik-tok"
+                        onClick={() => {
+                            navigate('/');
+                        }}
+                    />
                     <div className="ml-5">
                         <div className="px-3 bg-black text-white text-[-14] font-semibold rounded-sm text-center ">
                             Creator Center
@@ -144,7 +153,7 @@ function SystemAdminUpload() {
 
             {/* Sidebar */}
             <div className="flex">
-                <div className="w-60 h-full py-5 pl-2 pr-3 border-r border-b-gray-300">
+                {/* <div className="w-60 h-full py-5 pl-2 pr-3 border-r border-b-gray-300">
                     <div className=" mt-16 w-full h-screen  ">
                         <div className="pb-6 border-b border-b-gray-300">
                             <button className="w-full py-3  bg-gray-400 text-white text-[-18] font-semibold cursor-not-allowed ">
@@ -172,11 +181,11 @@ function SystemAdminUpload() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 <div className="mt-16 flex-1 h-screen bg-[-white-fake]">
                     <div>
-                        <div className="w-3/4 h-5/6 mx-auto mt-10 bg-white border border-gray-200 rounded-md px-10 py-6">
+                        <div className="w-3/5 h-5/6 mx-auto mt-10 bg-white border border-gray-200 rounded-md px-10 py-6">
                             <div className="">
                                 <h1 className="text-2xl font-bold">Tải video lên</h1>
                                 <p className="text-xl font-medium text-gray-400 mt-2">
@@ -184,7 +193,7 @@ function SystemAdminUpload() {
                                 </p>
                             </div>
 
-                            <div className="flex">
+                            <div className="flex ">
                                 <div className="py-4  w-[-700]">
                                     <div>
                                         <div className="flex justify-between">

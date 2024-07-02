@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import * as CommentService from '../../services/CommentService';
 import * as VideoService from '../../services/VideoService';
 import { useSelector } from 'react-redux';
-import { type } from '@testing-library/user-event/dist/type';
 
 function Comments({ videoId, lengthComment }) {
     const user = useSelector((state) => state.user);

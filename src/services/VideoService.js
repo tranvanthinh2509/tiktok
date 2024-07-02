@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { axiosJWT } from './UserService';
 
-export const getAllVideo = async (limit) => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/video/getAll`);
+export const getAllVideo = async (limit, page, title) => {
+    const res = await axios.get(
+        `${process.env.REACT_APP_API_URL}/video/getAll?limit=${limit}&page=${page}&title=${title}`,
+    );
     return res.data;
 };
 
@@ -14,6 +16,7 @@ export const createVideo = async (data) => {
 
 export const getDetailVideo = async (id) => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/video/detail/${id}`);
+
     return res.data;
 };
 

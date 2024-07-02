@@ -10,7 +10,8 @@ import SystemAdminUpload from '../page/SystemAdminUpload/SystemAdminUpload';
 import SystemAdmin from '../page/SystemAdmin/SystemAdmin';
 import DetailUser from '../page/DetailUser/DetailUser';
 import { HeaderOnly } from '../component/Layout';
-
+import ManagerUser from '../pageAdmin/ManagerUser/ManagerUser';
+import ManagerVideo from '../pageAdmin/ManagerVideo/ManagerVideo';
 const publicRoutes = [
     {
         path: '/',
@@ -65,6 +66,15 @@ const publicRoutes = [
     },
 ];
 
-const privateRoutes = [];
+const privateRoutes = [
+    {
+        path: '/manager/user',
+        component: ManagerUser,
+    },
+    {
+        path: '/manager/video',
+        component: ManagerVideo,
+    },
+];
 
 export { publicRoutes, privateRoutes };

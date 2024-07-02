@@ -4,7 +4,6 @@ export const axiosJWT = axios.create();
 
 export const loginUser = async (data) => {
     const res = await axios.post(`${process.env.REACT_APP_API_URL}/user/sign-in`, data);
-
     return res.data;
 };
 
@@ -43,6 +42,24 @@ export const updateInfoUser = async (id, data, access_token) => {
     });
     return res.data;
 };
+
+export const deleteUser = async (id, access_token) => {
+    const res = await axiosJWT.delete(`${process.env.REACT_APP_API_URL}/user/delete-user/${id}`, {
+        headers: {
+            token: `Bearer ${access_token}`,
+        },
+    });
+    return res.data;
+};
+export const updateInfoAccount = async (id, data, access_token) => {
+    console.log('data ', data);
+    const res = await axiosJWT.put(`${process.env.REACT_APP_API_URL}/user/update-account/${id}`, data, {
+        headers: {
+            token: `Bearer ${access_token}`,
+        },
+    });
+    return res.data;
+};
 export const search = async (searchInput) => {
     const res = await axios.get(
         `${process.env.REACT_APP_API_URL}/user/search?filter=name&filter=${encodeURIComponent(searchInput)}`,
@@ -70,5 +87,17 @@ export const NotFollowingUser = async (id) => {
 
 export const getOnelUser = async (id) => {
     const res = await axiosJWT.get(`${process.env.REACT_APP_API_URL}/user/getOneUser/${id}`);
+    return res.data;
+};
+
+export const getAllUser = async (limit, page, title, access_token) => {
+    const res = await axiosJWT.get(
+        `${process.env.REACT_APP_API_URL}/user/getAll?limit=${limit}&page=${page}&title=${title}`,
+        {
+            headers: {
+                token: `Bearer ${access_token}`,
+            },
+        },
+    );
     return res.data;
 };

@@ -26,7 +26,7 @@ function SignIn({ handleClickLogin }) {
             localStorage.setItem('access_token', JSON.stringify(data?.access_token));
             if (data?.access_token) {
                 const decoded = jwtDecode(data?.access_token);
-                console.log('decode ', decoded);
+
                 if (decoded?.id) {
                     handleGetDetailUser(decoded?.id, data?.access_token);
                 }

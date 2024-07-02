@@ -24,6 +24,7 @@
         "react-redux": "^9.1.0",
         "react-router-dom": "^6.22.0",
         "react-scripts": "5.0.1",
+        "sweetalert": "^2.1.2",
         "tailwind-scrollbar": "^3.1.0",
         "web-vitals": "^2.1.4"
     },
@@ -51,7 +52,7 @@
             "last 1 safari version"
         ]
     },
-    "proxy": "http://localhost:3001",
+    "proxy": "https://tiktok-server-delta.vercel.app/api",
     "devDependencies": {
         "customize-cra": "^1.0.0",
         "react-app-rewired": "^2.2.1",

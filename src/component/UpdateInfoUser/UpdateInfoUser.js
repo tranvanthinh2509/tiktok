@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../LoadingComponent/Loading';
 import { getBase64 } from '../../utils';
 import axios from 'axios';
+import swal from 'sweetalert';
 function UpdateInfoUser({ onClick }) {
     const user = useSelector((state) => state.user);
 
@@ -19,9 +20,9 @@ function UpdateInfoUser({ onClick }) {
     const [nickName, setNickName] = useState(' ');
     const [story, setStory] = useState(' ');
     const [avatar, setAvatar] = useState(' ');
-    const mutation = useMutationHooks((data) => {
+    const mutation = useMutationHooks(async (data) => {
         const { id, access_token, ...rests } = data;
-        UserService.updateInfoUser(id, rests, access_token);
+        await UserService.updateInfoUser(id, rests, access_token);
     });
 
     const dispatch = useDispatch();
@@ -36,11 +37,11 @@ function UpdateInfoUser({ onClick }) {
 
     useEffect(() => {
         if (isSuccess) {
-            message.success();
             handdleGetDetailsUser(user?.id, user?.access_token);
+            swal('SUCCESS!', 'Update Info Success', 'success');
             onClick();
         } else if (isError) {
-            message.error();
+            swal('ERROR!', 'Error', 'error');
         }
     }, [isSuccess, isError]);
 
@@ -80,6 +81,7 @@ function UpdateInfoUser({ onClick }) {
     const handleSave = () => {
         mutation.mutate({ id: user?.id, name, nickName, story, avatar, access_token: user?.access_token });
     };
+
     return (
         <div className=" fixed z-30 w-full h-full bg-black bg-opacity-10 ml-2">
             <div className="w-[-700]  bg-white mx-auto -translate-x-1/4 mt-20 rounded-lg">

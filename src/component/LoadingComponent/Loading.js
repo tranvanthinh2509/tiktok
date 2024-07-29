@@ -1,10 +1,12 @@
 const { Spin } = require('antd');
 
-function Loading({ children, isLoading, delay = 200 }) {
+function Loading({ children, isLoading, delay = 200, ...props }) {
     return (
-        <Spin spinning={isLoading} delay={delay}>
-            {children}
-        </Spin>
+        <div {...props}>
+            <Spin spinning={isLoading} delay={delay}>
+                {children}
+            </Spin>
+        </div>
     );
 }
 

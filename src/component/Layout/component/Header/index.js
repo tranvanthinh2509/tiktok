@@ -184,12 +184,12 @@ function Header() {
                     <Button
                         to={user.id && '/system/admin/upload'}
                         text
-                        leftIcon={<FaPlus className="mr-2 w-5 h-5" fontSize="14px" color="#161823" />}
+                        leftIcon={<FaPlus className="mr-2 w-5 h-5 " fontSize="14px" />}
                         onClick={() => {
                             user.id || setLogin(true);
                         }}
                     >
-                        <p className="text-[-18]  font-semibold ">Tải lên</p>
+                        <p className="text-[-18] font-semibold ">Tải lên</p>
                     </Button>
 
                     {curentUser ? (

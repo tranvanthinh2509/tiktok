@@ -21,8 +21,8 @@ function Home() {
     console.log('123 ', videos);
     return (
         <div>
-            <Loading isLoading={isPending}>
-                <div className="w-full h-full flex flex-col items-center mt-16">
+            <Loading className="" isLoading={isPending}>
+                <div className="w-full min-h-screen flex flex-col items-center mt-16">
                     {videos?.data?.map((video) => {
                         return <MainVideo fakeUser={video} />;
                     })}

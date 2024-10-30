@@ -37,5 +37,3 @@ function CommentForm({ submitLabel, handleSubmit, hasCancelButton = false, initi
 }
 
 export default CommentForm;
-{
-}

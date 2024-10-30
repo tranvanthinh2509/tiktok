@@ -6,6 +6,7 @@ import Loading from '../../component/LoadingComponent/Loading';
 import Button from '../../component/Layout/component/Button/Button';
 import { useEffect, useState } from 'react';
 import { useMutationHooks } from '../../hooks/useMutationHook';
+import NewLoading from '../../component/NewLoading';
 
 function Home() {
     const [loading, setLoading] = useState(true);
@@ -18,16 +19,14 @@ function Home() {
     };
 
     const { isPending, data: videos } = useQuery({ queryKey: ['videos'], queryFn: fetchVideoAll });
-    console.log('123 ', videos);
     return (
         <div>
-            <Loading className="" isLoading={isPending}>
-                <div className="w-full min-h-screen flex flex-col items-center mt-16">
-                    {videos?.data?.map((video) => {
-                        return <MainVideo fakeUser={video} />;
-                    })}
-                </div>
-            </Loading>
+            {isPending && <NewLoading isLoading={isPending} />}
+            <div className="w-full min-h-screen flex flex-col items-center mt-16">
+                {videos?.data?.map((video) => {
+                    return <MainVideo fakeUser={video} />;
+                })}
+            </div>
         </div>
     );
 }

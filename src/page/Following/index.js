@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Loading from '../../component/LoadingComponent/Loading';
 import NoLogin from '../../component/NoLogin/NoLogin';
+import NewLoading from '../../component/NewLoading';
 function Following() {
     const user = useSelector((state) => state.user);
     const [userFollowing, setUserFollowing] = useState();
@@ -20,6 +21,7 @@ function Following() {
             setLoading(false);
         }
     });
+
     const mutationFolowingVideo = useMutationHooks(async (data) => {
         const { userFollowing } = data;
         const res = await VideoService.getFollowingVideo({ userFollowing });
@@ -37,16 +39,17 @@ function Following() {
             mutationFolowingVideo.mutate({ userFollowing });
         }
     }, [userFollowing, user]);
+    const { isPending } = mutationFolowingVideo;
     return (
         <div>
             {user.id ? (
-                <Loading isLoading={loading}>
-                    <div className="w-full h-screen flex flex-col items-center mt-16">
-                        {arrFollowing?.map((following) => {
-                            return <MainVideo fakeUser={following} />;
-                        })}
-                    </div>
-                </Loading>
+                <div className="w-full h-screen flex flex-col items-center mt-16">
+                    {isPending && <NewLoading isLoading={isPending} />}
+
+                    {arrFollowing?.map((following) => {
+                        return <MainVideo fakeUser={following} />;
+                    })}
+                </div>
             ) : (
                 <NoLogin />
             )}

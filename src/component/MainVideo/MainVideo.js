@@ -20,6 +20,8 @@ import { useSelector } from 'react-redux';
 import { useMutationHooks } from '../../hooks/useMutationHook';
 import * as UserService from '../../services/UserService';
 import * as VideoService from '../../services/VideoService';
+import moment from 'moment';
+
 function MainVideo({ fakeUser }) {
     const user = useSelector((state) => state.user);
     const videoRef = useRef();
@@ -94,6 +96,10 @@ function MainVideo({ fakeUser }) {
         }
     };
 
+    const formatTime = (createdAt) => {
+        return moment(createdAt).fromNow();
+    };
+
     return (
         <div index="1" className="flex py-5 max-w-[-692] justify-between h-auto ">
             <HeadlessTippy
@@ -144,6 +150,7 @@ function MainVideo({ fakeUser }) {
                                 <p className="text-[-14] leading-7">{fakeUser?.userId?.nickName}</p>
                             </div>
                         </HeadlessTippy>
+                        <span className="text-xs text-gray-800">{formatTime(fakeUser?.createdAt)}</span>
                         <div className="w-11/12">
                             <h1 className="mr-1 text-[-18]">{fakeUser?.description}</h1>
                             <p className="text-blue-600 text-[-18]">{fakeUser?.tag || '#Xuhuong'}</p>

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import NoLogin from '../../component/NoLogin/NoLogin';
 import Loading from '../../component/LoadingComponent/Loading';
+import NewLoading from '../../component/NewLoading';
 function Friends() {
     const user = useSelector((state) => state.user);
     const [friends, setFriends] = useState();
@@ -17,7 +18,6 @@ function Friends() {
         const res = await UserService.NotFollowingUser(id);
         setFriends(res.data);
     });
-    console.log('res', friends);
 
     const mutationVideoBG = useMutationHooks(async (data) => {
         const { friends } = data;
@@ -34,7 +34,6 @@ function Friends() {
 
     useEffect(() => {
         if (friends) {
-            console.log('1');
             mutationVideoBG.mutate({ friends });
         }
     }, [friends, user]);
@@ -42,15 +41,14 @@ function Friends() {
     return (
         <div>
             {user.id ? (
-                <Loading isLoading={loading}>
-                    <div className="w-full h-screen flex justify-center pt-5 mt-16">
-                        <div className="grid grid-cols-3 gap-3 h-0">
-                            {videoFriend.map((video) => {
-                                return <UserNotFollow fakeVideo={video} />;
-                            })}
-                        </div>
+                <div className="w-full h-screen flex justify-center pt-5 mt-16">
+                    {loading && <NewLoading isLoading={loading} />}
+                    <div className="grid grid-cols-3 gap-3 h-0">
+                        {videoFriend.map((video) => {
+                            return <UserNotFollow fakeVideo={video} />;
+                        })}
                     </div>
-                </Loading>
+                </div>
             ) : (
                 <NoLogin />
             )}

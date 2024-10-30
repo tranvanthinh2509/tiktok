@@ -83,8 +83,8 @@ function UpdateInfoUser({ onClick }) {
     };
 
     return (
-        <div className=" fixed z-30 w-full h-full bg-black bg-opacity-10 ml-2">
-            <div className="w-[-700]  bg-white mx-auto -translate-x-1/4 mt-20 rounded-lg">
+        <div className=" fixed z-30 top-0 left-0 right-0 bottom-0 bg-black bg-opacity-10 ml-2 flex justify-center items-center">
+            <div className="w-[-700] bg-white  rounded-lg">
                 <div className="flex relative px-6 pt-6 pb-3 items-center justify-between border-b border-gray-300">
                     <button className={'text-2xl font-semibold'}>Sửa hồ sơ</button>
                     <div className="hover:cursor-pointer " onClick={onClick}>

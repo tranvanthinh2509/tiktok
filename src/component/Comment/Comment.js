@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import Image from '../Image/Image';
 import CommentForm from './CommentForm';
 import { convertTime } from '../ConvertTime/ConvertTime';
+import moment from 'moment';
 
 function Comment({
     comment,
@@ -23,12 +24,13 @@ function Comment({
         handleDelete(id);
     };
     const replyId = parentId ? parentId : comment._id;
-
-    console.log('reply', replies);
+    const formatTime = (createdAt) => {
+        return moment(createdAt).fromNow();
+    };
     return (
         <div>
             <div className="flex justify-between ">
-                <div className="flex mt-4 ">
+                <div className="flex mt-4 items-start ">
                     <Image
                         src={comment.userId.avatar}
                         alt="avatar"
@@ -39,7 +41,7 @@ function Comment({
                     <div className="">
                         <div className="flex justify-between items-center">
                             <div>
-                                <div className="px-2 py-1 bg-gray-100 rounded-lg ">
+                                <div className="px-2 rounded-lg ">
                                     <p className="text-[-14] font-semibold">{comment.userId.name}</p>
                                     {!isEdit && <p className="h-auto max-w-80">{comment.content}</p>}
                                     {isEdit && (
@@ -52,8 +54,8 @@ function Comment({
                                         />
                                     )}
                                 </div>
-                                <div className="flex text-[-14] font-semibold text-gray-500">
-                                    <div className="min-w-14 cursor-pointer">{convertTime(`${comment.createdAt}`)}</div>
+                                <div className="flex text-xs font-semibold text-gray-500 px-2">
+                                    <div className="min-w-14 cursor-pointer mr-4">{formatTime(comment.createdAt)}</div>
                                     {canReply && (
                                         <div
                                             className="min-w-14 cursor-pointer"

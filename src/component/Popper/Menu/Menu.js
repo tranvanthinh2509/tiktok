@@ -4,11 +4,13 @@ import MenuHeader from './MenuHeader';
 
 import MenuItem from './MenuItem';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Menu({ children, items = [] }) {
     const [history, setHistory] = useState([{ data: items }]);
     const current = history[history.length - 1];
-
+    console.log('item e', items);
+    const navigate = useNavigate();
     const RenderItem = () => {
         return current.data.map((item, index) => {
             const isParent = !!item.children;
@@ -23,6 +25,9 @@ function Menu({ children, items = [] }) {
                         }
                         if (item.separate) {
                             item.separate();
+                        }
+                        if (item?.to) {
+                            navigate(item?.to);
                         }
                     }}
                 />

@@ -27,6 +27,7 @@ import Comments from '../../component/Comment/Comments';
 import { updateUser } from '../../redux/slides/userSlide';
 import NewLoading from '../../component/NewLoading';
 import moment from 'moment';
+import ReactSlider from 'react-slider';
 
 function Video() {
     const videoRef = useRef();
@@ -40,6 +41,9 @@ function Video() {
     const [videoDetail, setVideoDetail] = useState(null);
     const [loading, setLoading] = useState(true);
     const [lengthCmt, setLengthCmt] = useState(0);
+    const [timeMin, setTimeMin] = useState(0);
+    const [timeMax, setTimeMax] = useState(0);
+    const [timeCurrent, setTimeCurrent] = useState(0);
     const navigate = useNavigate();
     const fetchDetailVideo = async (id) => {
         const res = await VideoService.getDetailVideo(id);
@@ -121,6 +125,17 @@ function Video() {
     const formatTime = (createdAt) => {
         return moment(createdAt).fromNow();
     };
+
+    const handleTimeUpdate = () => {
+        setTimeCurrent(videoRef.current.currentTime);
+    };
+    const handleLoadedData = () => {
+        setTimeMax(videoRef.current.duration);
+    };
+    const handleSliderChange = (value) => {
+        videoRef.current.currentTime = value;
+        setTimeCurrent(value);
+    };
     return (
         <div>
             {loading && <NewLoading isLoading={loading} />}
@@ -147,23 +162,25 @@ function Video() {
                                     muted={showVolume ? true : false}
                                     ref={videoRef}
                                     onClick={handlePlay}
-                                    className="hover:cursor-pointer h-full mr-5 "
+                                    className="hover:cursor-pointer h-full "
                                     loop
                                     src={videoDetail.video}
+                                    onTimeUpdate={handleTimeUpdate}
+                                    onLoadedData={handleLoadedData}
                                 ></video>
                                 {hoverVideo && (
                                     <div>
                                         {play ? (
                                             <button
                                                 onClick={handlePlay}
-                                                className="absolute w-10 h-10 bottom-8 left-6 flex text-center justify-center"
+                                                className="absolute w-10 h-10 bottom-2 left-0 flex text-center justify-center"
                                             >
                                                 <FaPause color="#fff" fontSize="20px" />
                                             </button>
                                         ) : (
                                             <button
                                                 onClick={handlePlay}
-                                                className=" absolute w-10 h-10 bottom-8 left-6 flex text-center justify-center"
+                                                className=" absolute w-10 h-10 bottom-2 left-0 flex text-center justify-center"
                                             >
                                                 <FaPlay color="#fff" fontSize="20px" />
                                             </button>
@@ -172,7 +189,7 @@ function Video() {
                                 )}
                                 {showVolume ? (
                                     <button
-                                        className="absolute w-10 h-10 bottom-7 right-8 flex text-center justify-center"
+                                        className="absolute w-10 h-10 bottom-2 right-0 flex text-center justify-center"
                                         onClick={() => {
                                             setShowVolume(false);
                                         }}
@@ -181,7 +198,7 @@ function Video() {
                                     </button>
                                 ) : (
                                     <button
-                                        className="absolute w-10 h-10 bottom-7 right-8 flex text-center justify-center"
+                                        className="absolute w-10 h-10 bottom-2 right-0 flex text-center justify-center"
                                         onClick={() => {
                                             setShowVolume(true);
                                         }}
@@ -189,6 +206,19 @@ function Video() {
                                         <FaVolumeUp color="#fff" fontSize="22px" />
                                     </button>
                                 )}
+                                <div className="absolute bottom-0 left-0 right-0 w-full ">
+                                    <ReactSlider
+                                        className="horizontal-slider"
+                                        thumbClassName="example-thumb"
+                                        trackClassName="example-track"
+                                        min={timeMin}
+                                        max={timeMax}
+                                        value={timeCurrent}
+                                        onChange={handleSliderChange}
+                                        step={0.01}
+                                        renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
+                                    />
+                                </div>
                             </div>
                             <div className="absolute top-3 left-3" onClick={handleBack}>
                                 <IoMdClose

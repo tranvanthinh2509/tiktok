@@ -21,13 +21,17 @@ import { useMutationHooks } from '../../hooks/useMutationHook';
 import * as UserService from '../../services/UserService';
 import * as VideoService from '../../services/VideoService';
 import moment from 'moment';
+import ReactSlider from 'react-slider';
 
 function MainVideo({ fakeUser }) {
     const user = useSelector((state) => state.user);
-    const videoRef = useRef();
+    const videoRef = useRef(null);
     const [play, setPlay] = useState(false);
     const [hoverVideo, setHoverVideo] = useState(false);
     const [showVolume, setShowVolume] = useState(true);
+    const [timeMin, setTimeMin] = useState(0);
+    const [timeMax, setTimeMax] = useState(0);
+    const [timeCurrent, setTimeCurrent] = useState(0);
     // const [followed, setFollowed] = useState(false);
     const [liked, setLiked] = useState(false);
 
@@ -42,15 +46,6 @@ function MainVideo({ fakeUser }) {
         setcommentLength(fakeUser?.comment.length);
     }, [fakeUser]);
 
-    // Cannel funtion follow
-    // const mutation = useMutationHooks((data) => {
-    //     const { id, userId } = data;
-    //     UserService.followUser(id, { userId: userId });
-    // });
-    // const mutation1 = useMutationHooks((data) => {
-    //     const { id, userId } = data;
-    //     UserService.unfollowUser(id, { userId: userId });
-    // });
     const mutationLike = useMutationHooks((data) => {
         const { id, userId } = data;
         VideoService.likeVideo(id, { userId: userId });
@@ -100,6 +95,16 @@ function MainVideo({ fakeUser }) {
         return moment(createdAt).fromNow();
     };
 
+    const handleTimeUpdate = () => {
+        setTimeCurrent(videoRef.current.currentTime);
+    };
+    const handleLoadedData = () => {
+        setTimeMax(videoRef.current.duration);
+    };
+    const handleSliderChange = (value) => {
+        videoRef.current.currentTime = value;
+        setTimeCurrent(value);
+    };
     return (
         <div index="1" className="flex py-5 max-w-[-692] justify-between h-auto ">
             <HeadlessTippy
@@ -179,6 +184,7 @@ function MainVideo({ fakeUser }) {
                         )} */}
                     </div>
                 </div>
+
                 <div className="h-[-700] flex ">
                     <div
                         onDoubleClick={() => handleDetailVideo(fakeUser._id)}
@@ -193,24 +199,26 @@ function MainVideo({ fakeUser }) {
                         <video
                             muted={showVolume ? true : false}
                             ref={videoRef}
-                            onClick={handlePlay}
+                            onClick={(e) => handlePlay(e)}
                             className="hover:cursor-pointer h-[-700] object-cover rounded-xl "
                             loop
                             src={fakeUser?.video}
+                            onTimeUpdate={handleTimeUpdate}
+                            onLoadedData={handleLoadedData}
                         ></video>
                         {hoverVideo && (
                             <div>
                                 {play ? (
                                     <button
                                         onClick={handlePlay}
-                                        className="absolute w-10 h-10 bottom-8 left-6 flex text-center justify-center"
+                                        className="absolute w-10 h-10 bottom-2 left-0 flex text-center justify-center"
                                     >
                                         <FaPause color="#fff" fontSize="20px" />
                                     </button>
                                 ) : (
                                     <button
                                         onClick={handlePlay}
-                                        className=" absolute w-10 h-10 bottom-8 left-6 flex text-center justify-center"
+                                        className=" absolute w-10 h-10 bottom-2 left-0 flex text-center justify-center"
                                     >
                                         <FaPlay color="#fff" fontSize="20px" />
                                     </button>
@@ -219,7 +227,7 @@ function MainVideo({ fakeUser }) {
                         )}
                         {showVolume ? (
                             <button
-                                className="absolute w-10 h-10 bottom-7 right-8 flex text-center justify-center"
+                                className="absolute w-10 h-10 bottom-2 right-0 flex text-center justify-center"
                                 onClick={() => {
                                     setShowVolume(false);
                                 }}
@@ -228,7 +236,7 @@ function MainVideo({ fakeUser }) {
                             </button>
                         ) : (
                             <button
-                                className="absolute w-10 h-10 bottom-7 right-8 flex text-center justify-center"
+                                className="absolute w-10 h-10 bottom-2 right-0 flex text-center justify-center"
                                 onClick={() => {
                                     setShowVolume(true);
                                 }}
@@ -236,6 +244,20 @@ function MainVideo({ fakeUser }) {
                                 <FaVolumeUp color="#fff" fontSize="22px" />
                             </button>
                         )}
+
+                        <div className="absolute bottom-0 left-0 right-0 w-full ">
+                            <ReactSlider
+                                className="horizontal-slider"
+                                thumbClassName="example-thumb"
+                                trackClassName="example-track"
+                                min={timeMin}
+                                max={timeMax}
+                                value={timeCurrent}
+                                onChange={handleSliderChange}
+                                step={0.01}
+                                renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
+                            />
+                        </div>
                     </div>
                     <div className="action h-full flex flex-col justify-end ml-5">
                         <div className="flex-col-reverse text-center">

@@ -22,8 +22,10 @@ import * as UserService from '../../services/UserService';
 import * as VideoService from '../../services/VideoService';
 import moment from 'moment';
 import ReactSlider from 'react-slider';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
-function MainVideo({ fakeUser }) {
+function MainVideo({ fakeUser, isPending }) {
     const user = useSelector((state) => state.user);
     const videoRef = useRef(null);
     const [play, setPlay] = useState(false);
@@ -37,7 +39,7 @@ function MainVideo({ fakeUser }) {
 
     useEffect(() => {
         // setFollowed(user.followings.includes(`${fakeUser.userId._id}`));
-        setLiked(fakeUser.liked.includes(`${user.id}`));
+        setLiked(fakeUser?.liked.includes(`${user.id}`));
     }, [user, fakeUser]);
     const [likedLength, setLikedLength] = useState(fakeUser?.liked.length);
     const [commentLength, setcommentLength] = useState(fakeUser?.comment.length);
@@ -113,15 +115,17 @@ function MainVideo({ fakeUser }) {
                 interactive
                 render={(atr) => (
                     <div className="w-80 shadow-[-wrapper] rounded-[-8]" tabIndex="-1" {...atr}>
-                        <Wrapper>
-                            <AccountItemInfo data={fakeUser} />
-                        </Wrapper>
+                        {isPending || (
+                            <Wrapper>
+                                <AccountItemInfo data={fakeUser} />
+                            </Wrapper>
+                        )}
                     </div>
                 )}
             >
                 <Image
                     className="w-14 h-14 object-cover rounded-[-50%] cursor-pointer"
-                    src={fakeUser?.userId?.avatar}
+                    src={isPending ? null : fakeUser?.userId?.avatar}
                     alt="avatar"
                     onClick={() => {
                         handleDetailUser(fakeUser.userId._id);
@@ -137,9 +141,11 @@ function MainVideo({ fakeUser }) {
                             interactive
                             render={(atr) => (
                                 <div className="w-80 shadow-[-wrapper] rounded-[-8]" tabIndex="-1" {...atr}>
-                                    <Wrapper>
-                                        <AccountItemInfo data={fakeUser} />
-                                    </Wrapper>
+                                    {isPending || (
+                                        <Wrapper>
+                                            <AccountItemInfo data={fakeUser} />
+                                        </Wrapper>
+                                    )}
                                 </div>
                             )}
                         >
@@ -147,25 +153,54 @@ function MainVideo({ fakeUser }) {
                                 <h1
                                     className="text-[-18] font-bold mr-1 leading-6 hover:underline hover:decoration-1 hover:cursor-pointer"
                                     onClick={() => {
-                                        handleDetailUser(fakeUser.userId._id);
+                                        isPending || handleDetailUser(fakeUser.userId._id);
                                     }}
                                 >
-                                    {fakeUser?.userId?.name}
+                                    {isPending ? (
+                                        <Skeleton width="100px" height="18px" count={1} />
+                                    ) : (
+                                        fakeUser?.userId?.name
+                                    )}
                                 </h1>
-                                <p className="text-[-14] leading-7">{fakeUser?.userId?.nickName}</p>
+
+                                <p className="text-[-14] leading-7">
+                                    {isPending ? (
+                                        <Skeleton width="60px" height="14px" count={1} />
+                                    ) : (
+                                        fakeUser?.userId?.nickName
+                                    )}
+                                </p>
                             </div>
                         </HeadlessTippy>
-                        <span className="text-xs text-gray-800">{formatTime(fakeUser?.createdAt)}</span>
+                        <span className="text-xs text-gray-800">
+                            {isPending ? (
+                                <Skeleton width="80px" height="16px" count={1} />
+                            ) : (
+                                formatTime(fakeUser?.createdAt)
+                            )}
+                        </span>
                         <div className="w-11/12">
-                            <h1 className="mr-1 text-[-18]">{fakeUser?.description}</h1>
-                            <p className="text-blue-600 text-[-18]">{fakeUser?.tag || '#Xuhuong'}</p>
+                            <h1 className="mr-1 text-[-18]">
+                                {isPending ? <Skeleton width="300px" height="18px" count={1} /> : fakeUser?.description}
+                            </h1>
+                            <p className="text-blue-600 text-[-18]">
+                                {isPending ? (
+                                    <Skeleton width="300px" height="18px" count={1} />
+                                ) : (
+                                    fakeUser?.tag || '#Xuhuong'
+                                )}
+                            </p>
                         </div>
-                        <div className="flex text-center h-6">
-                            <span className="my-auto">
-                                <IoMusicalNotesSharp fontSize="14px" />
-                            </span>
-                            <p className="leading-6 text-[-14] ml-1">{fakeUser?.music || 'Nhạc nền'}</p>
-                        </div>
+                        {isPending ? (
+                            <Skeleton width="40px" height="14px" count={1} />
+                        ) : (
+                            <div className="flex text-center h-6">
+                                <span className="my-auto">
+                                    <IoMusicalNotesSharp fontSize="14px" />
+                                </span>
+                                <p className="leading-6 text-[-14] ml-1">{fakeUser?.music || 'Nhạc nền'}</p>
+                            </div>
+                        )}
                     </div>
                     <div className="w-28">
                         {/* {fakeUser.userId._id === user.id || (
@@ -186,118 +221,137 @@ function MainVideo({ fakeUser }) {
                 </div>
 
                 <div className="h-[-700] flex ">
-                    <div
-                        onDoubleClick={() => handleDetailVideo(fakeUser._id)}
-                        className="relative   "
-                        onMouseEnter={() => {
-                            setHoverVideo(true);
-                        }}
-                        onMouseLeave={() => {
-                            setHoverVideo(false);
-                        }}
-                    >
-                        <video
-                            muted={showVolume ? true : false}
-                            ref={videoRef}
-                            onClick={(e) => handlePlay(e)}
-                            className="hover:cursor-pointer h-[-700] object-cover rounded-xl "
-                            loop
-                            src={fakeUser?.video}
-                            onTimeUpdate={handleTimeUpdate}
-                            onLoadedData={handleLoadedData}
-                        ></video>
-                        {hoverVideo && (
-                            <div>
-                                {play ? (
-                                    <button
-                                        onClick={handlePlay}
-                                        className="absolute w-10 h-10 bottom-2 left-0 flex text-center justify-center"
-                                    >
-                                        <FaPause color="#fff" fontSize="20px" />
-                                    </button>
-                                ) : (
-                                    <button
-                                        onClick={handlePlay}
-                                        className=" absolute w-10 h-10 bottom-2 left-0 flex text-center justify-center"
-                                    >
-                                        <FaPlay color="#fff" fontSize="20px" />
-                                    </button>
-                                )}
-                            </div>
-                        )}
-                        {showVolume ? (
-                            <button
-                                className="absolute w-10 h-10 bottom-2 right-0 flex text-center justify-center"
-                                onClick={() => {
-                                    setShowVolume(false);
-                                }}
-                            >
-                                <FaVolumeMute color="#fff" fontSize="22px" />
-                            </button>
-                        ) : (
-                            <button
-                                className="absolute w-10 h-10 bottom-2 right-0 flex text-center justify-center"
-                                onClick={() => {
-                                    setShowVolume(true);
-                                }}
-                            >
-                                <FaVolumeUp color="#fff" fontSize="22px" />
-                            </button>
-                        )}
-
-                        <div className="absolute bottom-0 left-0 right-0 w-full ">
-                            <ReactSlider
-                                className="horizontal-slider"
-                                thumbClassName="example-thumb"
-                                trackClassName="example-track"
-                                min={timeMin}
-                                max={timeMax}
-                                value={timeCurrent}
-                                onChange={handleSliderChange}
-                                step={0.01}
-                                renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
-                            />
-                        </div>
-                    </div>
-                    <div className="action h-full flex flex-col justify-end ml-5">
-                        <div className="flex-col-reverse text-center">
-                            {liked ? (
-                                <div
-                                    className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200"
-                                    onClick={handleOnchangeLike}
-                                >
-                                    <FaHeart fontSize="24px" color="red" />
-                                </div>
-                            ) : (
-                                <div
-                                    className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200"
-                                    onClick={handleOnchangeLike}
-                                >
-                                    <FaHeart fontSize="24px" />
+                    {isPending ? (
+                        <Skeleton width="400px" height="700px" count={1} />
+                    ) : (
+                        <div
+                            onDoubleClick={() => handleDetailVideo(fakeUser._id)}
+                            className="relative   "
+                            onMouseEnter={() => {
+                                setHoverVideo(true);
+                            }}
+                            onMouseLeave={() => {
+                                setHoverVideo(false);
+                            }}
+                        >
+                            <video
+                                muted={showVolume ? true : false}
+                                ref={videoRef}
+                                onClick={(e) => handlePlay(e)}
+                                className="hover:cursor-pointer h-[-700] object-cover rounded-xl "
+                                loop
+                                src={fakeUser?.video}
+                                onTimeUpdate={handleTimeUpdate}
+                                onLoadedData={handleLoadedData}
+                            ></video>
+                            {hoverVideo && (
+                                <div>
+                                    {play ? (
+                                        <button
+                                            onClick={handlePlay}
+                                            className="absolute w-10 h-10 bottom-2 left-0 flex text-center justify-center"
+                                        >
+                                            <FaPause color="#fff" fontSize="20px" />
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={handlePlay}
+                                            className=" absolute w-10 h-10 bottom-2 left-0 flex text-center justify-center"
+                                        >
+                                            <FaPlay color="#fff" fontSize="20px" />
+                                        </button>
+                                    )}
                                 </div>
                             )}
+                            {showVolume ? (
+                                <button
+                                    className="absolute w-10 h-10 bottom-2 right-0 flex text-center justify-center"
+                                    onClick={() => {
+                                        setShowVolume(false);
+                                    }}
+                                >
+                                    <FaVolumeMute color="#fff" fontSize="22px" />
+                                </button>
+                            ) : (
+                                <button
+                                    className="absolute w-10 h-10 bottom-2 right-0 flex text-center justify-center"
+                                    onClick={() => {
+                                        setShowVolume(true);
+                                    }}
+                                >
+                                    <FaVolumeUp color="#fff" fontSize="22px" />
+                                </button>
+                            )}
 
-                            <p className="text-xs text-gray-500 font-bold">{likedLength}</p>
-                        </div>
-                        <div className="flex-col-reverse text-center ">
-                            <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
-                                <AiFillMessage fontSize="24px" />
+                            <div className="absolute bottom-0 left-0 right-0 w-full ">
+                                <ReactSlider
+                                    className="horizontal-slider"
+                                    thumbClassName="example-thumb"
+                                    trackClassName="example-track"
+                                    min={timeMin}
+                                    max={timeMax}
+                                    value={timeCurrent}
+                                    onChange={handleSliderChange}
+                                    step={0.01}
+                                    renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
+                                />
                             </div>
-                            <p className="text-xs text-gray-500 font-bold">{commentLength}</p>
                         </div>
-                        <div className="flex-col-reverse text-center">
-                            <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
-                                <HiBookmark fontSize="24px" />
-                            </div>
-                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.liked.lenght || 0}</p>
-                        </div>
+                    )}
+                    <div className="action h-full flex flex-col justify-end ml-5">
+                        {isPending ? (
+                            <Skeleton className="my-2 px-3 py-3 " />
+                        ) : (
+                            <div className="flex-col-reverse text-center">
+                                {liked ? (
+                                    <div
+                                        className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200"
+                                        onClick={handleOnchangeLike}
+                                    >
+                                        <FaHeart fontSize="24px" color="red" />
+                                    </div>
+                                ) : (
+                                    <div
+                                        className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200"
+                                        onClick={handleOnchangeLike}
+                                    >
+                                        <FaHeart fontSize="24px" />
+                                    </div>
+                                )}
 
-                        <div className="flex-col-reverse text-center">
-                            <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
-                                <FaShare fontSize="24px" />
+                                <p className="text-xs text-gray-500 font-bold">{likedLength}</p>
                             </div>
-                            <p className="text-xs text-gray-500 font-bold">{fakeUser?.liked.lenght || 0}</p>
-                        </div>
+                        )}
+                        {isPending ? (
+                            <Skeleton className="my-2 px-3 py-3 " />
+                        ) : (
+                            <div className="flex-col-reverse text-center ">
+                                <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
+                                    <AiFillMessage fontSize="24px" />
+                                </div>
+                                <p className="text-xs text-gray-500 font-bold">{commentLength}</p>
+                            </div>
+                        )}
+                        {isPending ? (
+                            <Skeleton className="my-2 px-3 py-3 " />
+                        ) : (
+                            <div className="flex-col-reverse text-center">
+                                <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
+                                    <HiBookmark fontSize="24px" />
+                                </div>
+                                <p className="text-xs text-gray-500 font-bold">{fakeUser?.liked.lenght || 0}</p>
+                            </div>
+                        )}
+                        {isPending ? (
+                            <Skeleton className="my-2 px-3 py-3 " />
+                        ) : (
+                            <div className="flex-col-reverse text-center">
+                                <div className=" my-2 px-3 py-3 rounded-[-50%] bg-slate-200">
+                                    <FaShare fontSize="24px" />
+                                </div>
+                                <p className="text-xs text-gray-500 font-bold">{fakeUser?.liked.lenght || 0}</p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

@@ -42,7 +42,7 @@ function Friends() {
         <div>
             {user.id ? (
                 <div className="w-full h-screen flex justify-center pt-5 mt-16">
-                    {loading && <NewLoading isLoading={loading} />}
+                    {/* {loading && <NewLoading isLoading={loading} />} */}
                     <div className="grid grid-cols-3 gap-3 h-0">
                         {videoFriend.map((video) => {
                             return <UserNotFollow fakeVideo={video} />;

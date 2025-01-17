@@ -28,6 +28,8 @@ import { updateUser } from '../../redux/slides/userSlide';
 import NewLoading from '../../component/NewLoading';
 import moment from 'moment';
 import ReactSlider from 'react-slider';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 function Video() {
     const videoRef = useRef();
@@ -136,9 +138,20 @@ function Video() {
         videoRef.current.currentTime = value;
         setTimeCurrent(value);
     };
+    const handleDetailUser = (id) => {
+        if (id !== user.id) {
+            navigate(`/user/${id}`);
+        }
+    };
     return (
         <div>
-            {loading && <NewLoading isLoading={loading} />}
+            {/* {loading && (
+                <div className="flex w-full h-full ">
+                    <Skeleton width="70px" height="100px" count={1} />
+
+                    
+                </div>
+            )} */}
 
             <div className="w-full h-screen">
                 {videoDetail !== null ? (
@@ -266,7 +279,12 @@ function Video() {
                                             )}
                                         >
                                             <div className="">
-                                                <h1 className="text-[-18] font-bold mr-1 leading-6 hover:underline hover:decoration-1 hover:cursor-pointer">
+                                                <h1
+                                                    className="text-[-18] font-bold mr-1 leading-6 hover:underline hover:decoration-1 hover:cursor-pointer"
+                                                    onClick={() => {
+                                                        handleDetailUser(videoDetail.userId._id);
+                                                    }}
+                                                >
                                                     {videoDetail.userId.name}
                                                 </h1>
                                                 <p className="text-[-16] leading-7">{videoDetail.userId.nickName}</p>

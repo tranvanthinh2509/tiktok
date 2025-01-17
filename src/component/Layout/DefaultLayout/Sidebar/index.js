@@ -33,7 +33,7 @@ function Sidebar() {
         //     to: '/following1',
         // },
         {
-            avatar: 'https://i1.sndcdn.com/artworks-i0nLuYBs0dR2nsn4-AkxVlg-t500x500.jpg',
+            avatar: 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg',
             title: 'Hồ sơ',
             to: '/profile',
         },
@@ -55,7 +55,7 @@ function Sidebar() {
                             >
                                 {item.avatar ? (
                                     <Image
-                                        src={user.avatar}
+                                        src={user?.avatar || item.avatar}
                                         alt="son-tung"
                                         className="w-8 h-8 p-1 rounded-[-50%] object-cover"
                                     />
